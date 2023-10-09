@@ -1,0 +1,20 @@
+# Changes here will be overwritten by Copier
+_commit: 2a9049c
+_src_path: gh:browniebroke/pypackage-template
+add_me_as_contributor: true
+copyright_year: '2023'
+documentation: true
+email: oss@browniebroke.com
+full_name: Bruno Alla
+github_username: browniebroke
+initial_commit: true
+open_source_license: MIT
+package_name: remake_migrations
+project_name: Django remake migrations
+project_short_description: A Django admin command to recreate all migrations in a
+    project.
+project_slug: django-remake-migrations
+run_poetry_install: true
+setup_github: true
+setup_pre_commit: true
+

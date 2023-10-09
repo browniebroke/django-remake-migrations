@@ -1,0 +1,15 @@
+{
+  "projectName": "django-remake-migrations",
+  "projectOwner": "browniebroke",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 80,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [],
+  "contributorsPerLine": 7,
+  "skipCi": true
+}
