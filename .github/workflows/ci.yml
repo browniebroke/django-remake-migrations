@@ -65,15 +65,17 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   release:
-    runs-on: ubuntu-latest
-    environment: release
-    permissions:
-      # Use trusted publishing
-      id-token: write
     needs:
       - test
       - lint
       - commitlint
+
+    runs-on: ubuntu-latest
+    environment: release
+    concurrency: release
+    permissions:
+      id-token: write
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -90,7 +92,7 @@ jobs:
 
       # On main branch: actual PSR + upload to PyPI & GitHub
       - name: Release
-        uses: relekang/python-semantic-release@v8.1.1
+        uses: python-semantic-release/python-semantic-release@v8.1.1
         id: release
         if: github.ref_name == 'main'
         with:
