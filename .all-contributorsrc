@@ -9,7 +9,19 @@
   "imageSize": 80,
   "commit": true,
   "commitConvention": "angular",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "browniebroke",
+      "name": "Bruno Alla",
+      "avatar_url": "https://avatars.githubusercontent.com/u/861044?v=4",
+      "profile": "https://browniebroke.com/",
+      "contributions": [
+        "code",
+        "ideas",
+        "doc"
+      ]
+    }
+  ],
   "contributorsPerLine": 7,
   "skipCi": true
 }
