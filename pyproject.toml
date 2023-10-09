@@ -12,6 +12,11 @@ classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Operating System :: OS Independent",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
     "Topic :: Software Development :: Libraries",
 ]
 packages = [
@@ -24,6 +29,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
+django = ">=3.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
