@@ -1,0 +1,11 @@
+# Changelog
+
+## v0.1.0 (2023-10-09)
+
+### Feature
+
+- First version of the command ([`00e761c`](https://github.com/browniebroke/django-remake-migrations/commit/00e761ccfbef62156b74c4445f1bc825bad71aca))
+
+### Documentation
+
+- Add @browniebroke as a contributor ([`33a03d3`](https://github.com/browniebroke/django-remake-migrations/commit/33a03d3f0859bf6b416523f63b54c3e279f52e95))
