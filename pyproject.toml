@@ -48,7 +48,7 @@ branch = "main"
 version_toml = ["pyproject.toml:tool.poetry.version"]
 version_variables = [
     "src/remake_migrations/__init__.py:__version__",
-    "docs/conf.py:release",
+    "docs/conf.py:version",
 ]
 build_command = "pip install poetry && poetry build"
 
