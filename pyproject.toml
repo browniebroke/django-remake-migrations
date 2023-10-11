@@ -46,7 +46,10 @@ furo = ">=2023.5.20"
 [tool.semantic_release]
 branch = "main"
 version_toml = ["pyproject.toml:tool.poetry.version"]
-version_variable = "src/remake_migrations/__init__.py:__version__"
+version_variables = [
+    "src/remake_migrations/__init__.py:__version__",
+    "docs/conf.py:release",
+]
 build_command = "pip install poetry && poetry build"
 
 [tool.semantic_release.changelog]
