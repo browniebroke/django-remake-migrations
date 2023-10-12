@@ -68,6 +68,7 @@ addopts = """\
     -Wdefault
     --cov=remake_migrations
     --cov-report=term-missing:skip-covered
+    --cov-report=xml
     --ds=tests.settings
     """
 pythonpath = ["src"]
