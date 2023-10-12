@@ -57,7 +57,7 @@ jobs:
         run: pip install tox
         shell: bash
       - name: Test with Pytest
-        run: tox -e py
+        run: tox -f py$(echo ${{ matrix.python-version }} | tr -d .)
         shell: bash
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
