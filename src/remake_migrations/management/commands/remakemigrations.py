@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import datetime as dt
-import pickle
+import json
 from collections import defaultdict
+from importlib import import_module
 from pathlib import Path
 
 from django.apps import AppConfig, apps
@@ -28,7 +29,7 @@ class Command(BaseCommand):
     - makemigrations: should not detect any differences
     """
 
-    graph_file = Path(settings.BASE_DIR) / "graph.pickle"
+    graph_file = Path(settings.BASE_DIR) / "graph.json"
 
     def add_arguments(self, parser: CommandParser) -> None:
         """Add the option to run a specific step of the process."""
@@ -38,8 +39,6 @@ class Command(BaseCommand):
     def handle(self, step: int, *args: str, **options: str) -> None:
         """Execute one step after another to avoid side effects between steps."""
         if step == 1:
-            # First, make sure we have applied all migrations
-            call_command("migrate")
             # Remove old migration files
             self.clear_old_migrations()
         if step == 2:
@@ -53,14 +52,12 @@ class Command(BaseCommand):
     @property
     def old_migrations(self) -> dict[str, list[str]]:
         """Load old migrations from a pickle file."""
-        with self.graph_file.open("rb") as fh:
-            return pickle.load(fh)  # noqa S301
+        return json.loads(self.graph_file.read_text())
 
     @old_migrations.setter
     def old_migrations(self, value: dict[str, list[str]]) -> None:
-        """Save old migrations in a pickle file."""
-        with self.graph_file.open("wb") as fh:
-            pickle.dump(value, fh)
+        """Save old migrations graph in a file."""
+        self.graph_file.write_text(json.dumps(value, indent=2))
 
     def clear_old_migrations(self) -> None:
         """Remove all pre-existing migration files in first party apps."""
@@ -84,8 +81,11 @@ class Command(BaseCommand):
     @staticmethod
     def remove_migration_file(app_label: str, migration_name: str) -> None:
         """Remove file from the disk for the specified migration."""
-        app_config = apps.get_app_config(app_label)
-        migration_file = Path(app_config.path) / "migrations" / f"{migration_name}.py"
+        app_migrations_module_name, _ = MigrationLoader.migrations_module(app_label)
+        migration_module = import_module(
+            f"{app_migrations_module_name}.{migration_name}"
+        )
+        migration_file = Path(migration_module.__file__)  # type: ignore[arg-type]
         migration_file.unlink()
 
     def update_new_migrations(self) -> None:
