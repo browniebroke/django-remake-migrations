@@ -34,6 +34,7 @@ django = ">=3.2"
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
 pytest-cov = "^4.0.0"
+pytest-django = "^4.5.2"
 
 [tool.poetry.group.docs]
 optional = true
@@ -62,8 +63,15 @@ exclude_commit_patterns = [
 keep_trailing_newline = true
 
 [tool.pytest.ini_options]
-addopts = "-v -Wdefault --cov=remake_migrations --cov-report=term-missing:skip-covered"
+addopts = """\
+    -v
+    -Wdefault
+    --cov=remake_migrations
+    --cov-report=term-missing:skip-covered
+    --ds=tests.settings
+    """
 pythonpath = ["src"]
+django_find_project = false
 
 [tool.coverage.run]
 branch = true
