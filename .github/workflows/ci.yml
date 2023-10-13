@@ -11,15 +11,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
-      - uses: pre-commit/action@v3.0.0
-
   # Make sure commit messages follow the conventional commits convention:
   # https://www.conventionalcommits.org
   commitlint:
@@ -67,7 +58,6 @@ jobs:
   release:
     needs:
       - test
-      - lint
       - commitlint
 
     runs-on: ubuntu-latest
