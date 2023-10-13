@@ -30,6 +30,14 @@
   <img src="https://img.shields.io/pypi/l/django-remake-migrations.svg?style=flat-square" alt="License">
 </p>
 
+---
+
+**Documentation**: <a href="https://django-remake-migrations.readthedocs.io" target="_blank">https://django-remake-migrations.readthedocs.io</a>
+
+**Source Code**: <a href="https://github.com/browniebroke/django-remake-migrations" target="_blank">https://github.com/browniebroke/django-remake-migrations </a>
+
+---
+
 A Django admin command to recreate all migrations in a project.
 
 ## Installation
