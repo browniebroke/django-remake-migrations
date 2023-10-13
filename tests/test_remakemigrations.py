@@ -67,9 +67,9 @@ class RemakeMigrationsTests(TestCase):
             json.dumps(
                 {
                     "testapp": [
-                        ["testapp", "0003_other_thing"],
-                        ["testapp", "0002_something"],
                         ["testapp", "0001_initial"],
+                        ["testapp", "0002_something"],
+                        ["testapp", "0003_other_thing"],
                     ]
                 }
             )
@@ -81,8 +81,11 @@ class RemakeMigrationsTests(TestCase):
         assert err == ""
         assert returncode == 0
 
-        dir_files = os.listdir(self.migrations_dir)
-        assert dir_files == ["__init__.py", "0001_initial.py"]
+        dir_files = sorted(os.listdir(self.migrations_dir))
+        assert dir_files == [
+            "0001_initial.py",
+            "__init__.py",
+        ]
 
         initial_0001 = self.migrations_dir / "0001_initial.py"
         content = initial_0001.read_text()
@@ -98,12 +101,12 @@ class RemakeMigrationsTests(TestCase):
         assert err == ""
         assert returncode == 0
 
-        dir_files = os.listdir(self.migrations_dir)
+        dir_files = sorted(os.listdir(self.migrations_dir))
         today = datetime.today()
         initial_remade_name = f"0001_remaked_{today:%Y%m%d}_initial.py"
         assert dir_files == [
-            "__init__.py",
             initial_remade_name,
+            "__init__.py",
         ]
 
         initial_remade = self.migrations_dir / initial_remade_name
