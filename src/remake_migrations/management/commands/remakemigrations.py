@@ -8,7 +8,7 @@ from pathlib import Path
 
 from django.apps import AppConfig, apps
 from django.conf import settings
-from django.core.management import BaseCommand, CommandParser, call_command
+from django.core.management import BaseCommand, call_command
 from django.db.migrations import Migration
 from django.db.migrations.loader import MigrationLoader
 from django.db.migrations.writer import MigrationWriter
@@ -31,23 +31,15 @@ class Command(BaseCommand):
 
     graph_file = Path(settings.BASE_DIR) / "graph.json"
 
-    def add_arguments(self, parser: CommandParser) -> None:
-        """Add the option to run a specific step of the process."""
-        super().add_arguments(parser)
-        parser.add_argument("--step", type=int, action="store")
-
-    def handle(self, step: int, *args: str, **options: str) -> None:
+    def handle(self, *args: str, **options: str) -> None:
         """Execute one step after another to avoid side effects between steps."""
-        if step == 1:
-            # Remove old migration files
-            self.clear_old_migrations()
-        if step == 2:
-            call_command("makemigrations")
-        if step == 3:
-            # Update new files to be squashed of the old ones
-            self.update_new_migrations()
-            # Delete the graph file
-            self.graph_file.unlink()
+        # Remove old migration files
+        self.clear_old_migrations()
+        call_command("makemigrations")
+        # Update new files to be squashed of the old ones
+        self.update_new_migrations()
+        # Delete the graph file
+        self.graph_file.unlink()
 
     @property
     def old_migrations(self) -> dict[str, list[tuple[str, str]]]:
