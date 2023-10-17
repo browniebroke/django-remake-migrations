@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.3.0 (2023-10-17)
+
+### Test
+
+- Handle edge case on windows ([`7891b71`](https://github.com/browniebroke/django-remake-migrations/commit/7891b71426c33324ce8dc7ab0bf59bc5f88d64ba))
+- Improve test cases by adding another app ([`2792b1c`](https://github.com/browniebroke/django-remake-migrations/commit/2792b1ca62d0fb077783a987f3e200ea9d38a769))
+
+### Feature
+
+- Remove graph file and the need for base_dir setting ([`7ee4f06`](https://github.com/browniebroke/django-remake-migrations/commit/7ee4f0675ca851446ced74867f38fe943bcf94a4))
+- Remake all migrations in one step ([`89c93e4`](https://github.com/browniebroke/django-remake-migrations/commit/89c93e4afe265bf3269dd634e258524184bae3ec))
+
+### Fix
+
+- Invalidate imported migration modules when they are removed ([`7b5da27`](https://github.com/browniebroke/django-remake-migrations/commit/7b5da27bbd98cc640ae26e723eff7330573f763a))
+
 ## v0.2.1 (2023-10-17)
 
 ### Fix
