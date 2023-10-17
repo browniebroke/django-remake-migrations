@@ -1,14 +1,12 @@
 from __future__ import annotations
 
 import datetime as dt
-import json
 import sys
 from collections import defaultdict
 from importlib import import_module
 from pathlib import Path
 
 from django.apps import AppConfig, apps
-from django.conf import settings
 from django.core.management import BaseCommand, call_command
 from django.db.migrations import Migration
 from django.db.migrations.loader import MigrationLoader
@@ -30,7 +28,7 @@ class Command(BaseCommand):
     - makemigrations: should not detect any differences
     """
 
-    graph_file = Path(settings.BASE_DIR) / "graph.json"
+    old_migrations: dict[str, list[tuple[str, str]]]
 
     def handle(self, *args: str, **options: str) -> None:
         """Execute one step after another to avoid side effects between steps."""
@@ -39,22 +37,6 @@ class Command(BaseCommand):
         call_command("makemigrations")
         # Update new files to be squashed of the old ones
         self.update_new_migrations()
-        # Delete the graph file
-        self.graph_file.unlink()
-
-    @property
-    def old_migrations(self) -> dict[str, list[tuple[str, str]]]:
-        """Load old migrations from a pickle file."""
-        graph = json.loads(self.graph_file.read_text())
-        return {
-            app_label: [(al, mn) for al, mn in migrations_list]  # noqa C416
-            for app_label, migrations_list in graph.items()
-        }
-
-    @old_migrations.setter
-    def old_migrations(self, value: dict[str, list[tuple[str, str]]]) -> None:
-        """Save old migrations graph in a file."""
-        self.graph_file.write_text(json.dumps(value, indent=2))
 
     def clear_old_migrations(self) -> None:
         """Remove all pre-existing migration files in first party apps."""
