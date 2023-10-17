@@ -17,11 +17,11 @@ from tests.utils import EMPTY_MIGRATION, run_command
 class RemakeMigrationsTests(TestCase):
     @pytest.fixture(autouse=True)
     def tmp_path_fixture(self, tmp_path: Path) -> Generator[None, None, None]:
-        migrations_module_name1 = "migrations" + str(time.time()).replace(".", "")
+        migrations_module_name1 = "migrations" + str(time.time()).replace(".", "") + "1"
         self.testapp_mig_dir = tmp_path / migrations_module_name1
         self.testapp_mig_dir.mkdir()
 
-        migrations_module_name2 = "migrations" + str(time.time()).replace(".", "")
+        migrations_module_name2 = "migrations" + str(time.time()).replace(".", "") + "2"
         self.testapp2_mig_dir = tmp_path / migrations_module_name2
         self.testapp2_mig_dir.mkdir()
 
