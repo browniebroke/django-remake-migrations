@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.1 (2023-10-17)
+
+### Fix
+
+- Replaces property should be a list of tuples ([`0e88afe`](https://github.com/browniebroke/django-remake-migrations/commit/0e88afe164add8f4d888cabfd05b1e9d41b144d3))
+
 ## v0.2.0 (2023-10-13)
 
 ### Test

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-remake-migrations"
-version = "0.2.0"
+version = "0.2.1"
 description = "A Django admin command to recreate all migrations in a project."
 authors = ["Bruno Alla <oss@browniebroke.com>"]
 license = "MIT"
