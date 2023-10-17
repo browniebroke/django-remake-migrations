@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import sys
 from collections import defaultdict
 from importlib import import_module
 from pathlib import Path
@@ -83,6 +84,8 @@ class Command(BaseCommand):
         )
         migration_file = Path(migration_module.__file__)  # type: ignore[arg-type]
         migration_file.unlink()
+        # Invalidate the import cache to avoid loading the old migration
+        sys.modules.pop(migration_module.__name__, None)
 
     def update_new_migrations(self) -> None:
         """
