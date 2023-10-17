@@ -1,9 +1,5 @@
 from __future__ import annotations
 
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent
-
 SECRET_KEY = "NOTASECRET"  # noqa S105
 
 DATABASES = {
