@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import os
 import sys
 import time
@@ -37,14 +36,14 @@ class RemakeMigrationsTests(TestCase):
         migration_0002.write_text(
             dedent(
                 """\
-            from django.db import migrations
+                from django.db import migrations
 
-            class Migration(migrations.Migration):
-                dependencies = [
-                    ('testapp', '0001_initial'),
-                ]
-                operations = []
-            """
+                class Migration(migrations.Migration):
+                    dependencies = [
+                        ('testapp', '0001_initial'),
+                    ]
+                    operations = []
+                """
             )
         )
 
@@ -64,14 +63,16 @@ class RemakeMigrationsTests(TestCase):
         (self.migrations_dir / "__init__.py").touch()
         graph_json = Path(__file__).parent / "graph.json"
         graph_json.write_text(
-            json.dumps(
+            dedent(
+                """\
                 {
                     "testapp": [
                         ["testapp", "0001_initial"],
                         ["testapp", "0002_something"],
-                        ["testapp", "0003_other_thing"],
+                        ["testapp", "0003_other_thing"]
                     ]
                 }
+                """
             )
         )
 
@@ -116,7 +117,7 @@ class RemakeMigrationsTests(TestCase):
         assert "class Migration(migrations.Migration):" in content
         assert "initial = True" in content
         assert (
-            "replaces = [['testapp', '0001_initial'], "
-            "['testapp', '0002_something'], "
-            "['testapp', '0003_other_thing']]" in content
+            "replaces = [('testapp', '0001_initial'), "
+            "('testapp', '0002_something'), "
+            "('testapp', '0003_other_thing')]" in content
         )

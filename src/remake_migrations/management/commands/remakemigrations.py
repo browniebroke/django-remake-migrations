@@ -50,12 +50,16 @@ class Command(BaseCommand):
             self.graph_file.unlink()
 
     @property
-    def old_migrations(self) -> dict[str, list[str]]:
+    def old_migrations(self) -> dict[str, list[tuple[str, str]]]:
         """Load old migrations from a pickle file."""
-        return json.loads(self.graph_file.read_text())
+        graph = json.loads(self.graph_file.read_text())
+        return {
+            app_label: [(al, mn) for al, mn in migrations_list]  # noqa C416
+            for app_label, migrations_list in graph.items()
+        }
 
     @old_migrations.setter
-    def old_migrations(self, value: dict[str, list[str]]) -> None:
+    def old_migrations(self, value: dict[str, list[tuple[str, str]]]) -> None:
         """Save old migrations graph in a file."""
         self.graph_file.write_text(json.dumps(value, indent=2))
 
@@ -162,8 +166,8 @@ class Command(BaseCommand):
 
     @staticmethod
     def sort_migrations_map(
-        migrations_map: dict[str, list[str]]
-    ) -> dict[str, list[str]]:
+        migrations_map: dict[str, list[tuple[str, str]]]
+    ) -> dict[str, list[tuple[str, str]]]:
         """Sort migrations and group them by app."""
         return {
             app_label: sorted(migrations_list)
