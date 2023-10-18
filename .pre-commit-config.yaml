@@ -31,6 +31,14 @@ repos:
     rev: 1.6.1
     hooks:
       - id: poetry-check
+      - id: poetry-export
+        args:
+          [
+            "--without-hashes",
+            "--only=dev",
+            "--format=requirements.txt",
+            "--output=requirements-dev.txt",
+          ]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v3.0.3
     hooks:
