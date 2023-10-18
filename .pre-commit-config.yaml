@@ -34,14 +34,10 @@ repos:
       - id: poetry-export
         args:
           [
-            "--only",
-            "dev",
             "--without-hashes",
-            "--without-urls",
-            "-f",
-            "requirements.txt",
-            "-o",
-            "requirements-dev.txt",
+            "--only=dev",
+            "--format=requirements.txt",
+            "--output=requirements-dev.txt",
           ]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v3.0.3
