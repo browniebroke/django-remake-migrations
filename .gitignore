@@ -141,6 +141,3 @@ cython_debug/
 
 # Some files that might be generated in tests
 tests/graph.json
-
-# Generated when runnning tox
-requirements-dev.txt
