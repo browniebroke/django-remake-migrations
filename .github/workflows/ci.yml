@@ -44,10 +44,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - uses: snok/install-poetry@v1.3.4
-      - name: Install Dependencies
+      - name: Install test dependencies
         run: pip install tox
         shell: bash
-      - name: Test with Pytest
+      - name: Run tests
         run: tox -f py$(echo ${{ matrix.python-version }} | tr -d .)
         shell: bash
       - name: Upload coverage to Codecov
