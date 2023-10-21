@@ -38,13 +38,23 @@
 
 ---
 
-A Django admin command to recreate all migrations in a project.
+A Django admin command to recreate all migrations in a project. Like a `squashmigrations` command on steroids.
 
-## Installation
+## The problem
 
-Install this via pip (or your favourite package manager):
+The built-in `squashmigrations` command is great, but it has some limitations:
 
-`pip install django-remake-migrations`
+- **It only works on a single app at a time**, which means that you need to run it for each app in your project. On a project with enough cross-apps dependencies, it quickly becomes impossible to run.
+- **It doesn't optimise the operations**, it only reduces the number of migration files. That being said, Django 4.1 introduced a new [`optimizemigrations` command](https://docs.djangoproject.com/en/stableref/django-admin/#optimizemigration) which sounds like it might be doing just this.
+
+This command aims at solving this problem, by recreating all the migration files in the whole project, from scratch, and mark them as applied by using the `replaces` attribute.
+
+It makes an important trade-off though: it does NOT try to be correct when setting the `replaces` attribute. The only guarantees are that:
+
+- all old migrations are marked as replaced **once**.
+- all new migrations replace at least one of the old migrations
+
+This is OK to make this trade-off as long as all your environments are fully migrated when you deploy the remade migrations.
 
 ## Contributors ✨
 
