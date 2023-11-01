@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.2 (2023-11-01)
+
+### Documentation
+
+- Add dmytrolitvinov as a contributor for doc (#34) ([`03d4a0e`](https://github.com/browniebroke/django-remake-migrations/commit/03d4a0e286905ac8ff6be4dcab8363207a85032e))
+
+### Fix
+
+- Typo in an url mentioned in the readme.md (#33) ([`58c3f5b`](https://github.com/browniebroke/django-remake-migrations/commit/58c3f5b8fbb5a8d3eb91768f7d97c4c8b06aa24e))
+
 ## v0.3.1 (2023-11-01)
 
 ### Fix
