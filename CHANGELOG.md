@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.1 (2023-11-01)
+
+### Fix
+
+- Update dependency django to v4.2.7 (#31) ([`c330296`](https://github.com/browniebroke/django-remake-migrations/commit/c3302963a8bdcd948fdbc53c24929b0719e16e26))
+
+### Documentation
+
+- Write the initial version of the docs (#21) ([`d3ac7c8`](https://github.com/browniebroke/django-remake-migrations/commit/d3ac7c82f66f7466f106e39ae0c6ac23b1f34a5a))
+
 ## v0.3.0 (2023-10-17)
 
 ### Test

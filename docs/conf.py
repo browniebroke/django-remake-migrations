@@ -7,7 +7,7 @@
 project = "Django remake migrations"
 copyright = "2023, Bruno Alla"
 author = "Bruno Alla"
-version = "0.3.0"
+version = "0.3.1"
 release = version
 
 # General configuration
