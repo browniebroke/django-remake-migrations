@@ -15,7 +15,7 @@ TIME_ZONE = "UTC"
 INSTALLED_APPS = [
     "tests.testapp",
     "tests.testapp2",
-    "remake_migrations",
+    "django_remake_migrations",
     # Force django_migrations creation by having an app with migrations:
     "django.contrib.contenttypes",
 ]

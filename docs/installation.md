@@ -13,7 +13,7 @@ Add the app to your `INSTALLED_APPS`:
 ```python
 INSTALLED_APPS = [
     # ...
-    "remake_migrations",
+    "django_remake_migrations",
 ]
 ```
 

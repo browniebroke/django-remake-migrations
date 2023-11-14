@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
 ]
 packages = [
-    { include = "remake_migrations", from = "src" },
+    { include = "django_remake_migrations", from = "src" },
 ]
 
 [tool.poetry.urls]
@@ -49,7 +49,7 @@ sphinx-autobuild = "^2021.3.14"
 [tool.semantic_release]
 version_toml = ["pyproject.toml:tool.poetry.version"]
 version_variables = [
-    "src/remake_migrations/__init__.py:__version__",
+    "src/django_remake_migrations/__init__.py:__version__",
     "docs/conf.py:version",
 ]
 build_command = "pip install poetry && poetry build"
@@ -74,7 +74,7 @@ prerelease = true
 addopts = """\
     -v
     -Wdefault
-    --cov=remake_migrations
+    --cov=django_remake_migrations
     --cov-report=term-missing:skip-covered
     --cov-report=xml
     --ds=tests.settings
@@ -132,7 +132,7 @@ select = [
 "docs/conf.py" = ["D100"]
 
 [tool.ruff.isort]
-known-first-party = ["remake_migrations", "tests"]
+known-first-party = ["django_remake_migrations", "tests"]
 
 [tool.mypy]
 check_untyped_defs = true

@@ -9,7 +9,7 @@ full_name: Bruno Alla
 github_username: browniebroke
 initial_commit: true
 open_source_license: MIT
-package_name: remake_migrations
+package_name: django_remake_migrations
 project_name: Django remake migrations
 project_short_description: A Django admin command to recreate all migrations in a
     project.
