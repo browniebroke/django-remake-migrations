@@ -17,13 +17,15 @@ from tests.utils import EMPTY_MIGRATION, run_command
 class TestSimpleCase(TestCase):
     @pytest.fixture(autouse=True)
     def tmp_path_fixture(self, tmp_path: Path) -> Generator[None, None, None]:
-        migrations_module_name1 = "migrations" + str(time.time()).replace(".", "") + "1"
-        self.app1_mig_dir = tmp_path / migrations_module_name1
-        self.app1_mig_dir.mkdir()
-
-        migrations_module_name2 = "migrations" + str(time.time()).replace(".", "") + "2"
-        self.app2_mig_dir = tmp_path / migrations_module_name2
-        self.app2_mig_dir.mkdir()
+        migration_modules = {}
+        self.app_mig_dirs = {}
+        for app_name in ["app1", "app2"]:
+            mig_module_name = (
+                "migrations" + str(time.time()).replace(".", "") + app_name
+            )
+            migration_modules[app_name] = mig_module_name
+            self.app_mig_dirs[app_name] = tmp_path / mig_module_name
+            self.app_mig_dirs[app_name].mkdir()
 
         sys.path.insert(0, str(tmp_path))
         try:
@@ -34,20 +36,18 @@ class TestSimpleCase(TestCase):
                     "django_remake_migrations",
                     "django.contrib.contenttypes",
                 ],
-                MIGRATION_MODULES={
-                    "app1": migrations_module_name1,
-                    "app2": migrations_module_name2,
-                },
+                MIGRATION_MODULES=migration_modules,
             ):
                 yield
         finally:
             sys.path.pop(0)
 
     def test_success_all_steps(self):
-        (self.app1_mig_dir / "__init__.py").touch()
-        initial_0001 = self.app1_mig_dir / "0001_initial.py"
+        app1_mig_dir = self.app_mig_dirs["app1"]
+        (app1_mig_dir / "__init__.py").touch()
+        initial_0001 = app1_mig_dir / "0001_initial.py"
         initial_0001.write_text(EMPTY_MIGRATION)
-        migration_0002 = self.app1_mig_dir / "0002_something.py"
+        migration_0002 = app1_mig_dir / "0002_something.py"
         migration_0002.write_text(
             dedent(
                 """\
@@ -62,7 +62,7 @@ class TestSimpleCase(TestCase):
                 """
             )
         )
-        migration_0003 = self.app1_mig_dir / "0003_other_thing.py"
+        migration_0003 = app1_mig_dir / "0003_other_thing.py"
         migration_0003.write_text(
             dedent(
                 """\
@@ -77,8 +77,9 @@ class TestSimpleCase(TestCase):
             )
         )
 
-        (self.app2_mig_dir / "__init__.py").touch()
-        initial_0001 = self.app2_mig_dir / "0001_initial.py"
+        app2_mig_dir = self.app_mig_dirs["app2"]
+        (app2_mig_dir / "__init__.py").touch()
+        initial_0001 = app2_mig_dir / "0001_initial.py"
         initial_0001.write_text(EMPTY_MIGRATION)
 
         out, err, returncode = run_command("remakemigrations")
@@ -92,7 +93,7 @@ class TestSimpleCase(TestCase):
         assert err == ""
         assert returncode == 0
 
-        dir_files = sorted(os.listdir(self.app1_mig_dir))
+        dir_files = sorted(os.listdir(app1_mig_dir))
         today = datetime.today()
         initial_remade_name = f"0001_remaked_{today:%Y%m%d}.py"
         assert dir_files == [
@@ -100,7 +101,7 @@ class TestSimpleCase(TestCase):
             "__init__.py",
         ]
 
-        initial_remade = self.app1_mig_dir / initial_remade_name
+        initial_remade = app1_mig_dir / initial_remade_name
         content = initial_remade.read_text()
 
         assert "from django.db import migrations" in content
