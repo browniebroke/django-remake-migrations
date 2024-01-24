@@ -65,9 +65,14 @@ class Command(BaseCommand):
         self.old_migrations = dict(old_migrations)
 
     def make_migrations(self) -> None:
-        """Recreate migrations from scratch."""
+        """Recreate migrations from scratch with a unique name."""
         self.log_info("Creating new migrations...")
-        call_command("makemigrations")
+        name = f"remaked_{dt.date.today():%Y%m%d}"
+        call_command(
+            "makemigrations",
+            "--name",
+            name,
+        )
 
     @staticmethod
     def _is_first_party(app_config: AppConfig) -> bool:
@@ -144,23 +149,10 @@ class Command(BaseCommand):
                         first_replaces_count + index - 1
                     ]
                     migration_obj.replaces = [replaced_migration]
-                # Give the migration a unique name
-                # to avoid clashes with pre-existing ones
-                auto_name = migration_obj.name
-                migration_obj.name = self.make_unique_name(auto_name)
-                # Also update dependencies
-                migration_obj.dependencies = [
-                    (al, self.make_unique_name(mn))
-                    if al in sorted_new_migrations
-                    and (al, mn) in sorted_new_migrations[al]
-                    else (al, mn)
-                    for al, mn in migration_obj.dependencies
-                ]
+
                 migration_obj.initial = True
                 # Rewrite back to the disk
                 self.write_to_disk(migration_obj)
-                # Remove the auto-generated migration file
-                self.remove_migration_file(app_label, auto_name)
 
     @staticmethod
     def sort_migrations_map(
@@ -178,17 +170,6 @@ class Command(BaseCommand):
         writer = MigrationWriter(migration_obj)
         with open(writer.path, "w", encoding="utf-8") as fh:
             fh.write(writer.as_string())
-
-    @staticmethod
-    def make_unique_name(auto_name: str) -> str:
-        """Generate an auto-generated unique migration name."""
-        if auto_name == "__first__":
-            return auto_name
-        today = dt.date.today()
-        number, *name_parts = auto_name.split("_")
-        # Don't use 'squashed' in the name as Django tries to be clever
-        # and treats the date as the latest number
-        return "_".join([number, "remaked", f"{today:%Y%m%d}", *name_parts])
 
     def run_post_commands(self) -> None:
         """Run other management commands at the very end."""

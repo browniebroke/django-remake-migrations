@@ -88,7 +88,7 @@ class RemakeMigrationsTests(TestCase):
 
         dir_files = sorted(os.listdir(self.testapp_mig_dir))
         today = datetime.today()
-        initial_remade_name = f"0001_remaked_{today:%Y%m%d}_initial.py"
+        initial_remade_name = f"0001_remaked_{today:%Y%m%d}.py"
         assert dir_files == [
             initial_remade_name,
             "__init__.py",
@@ -102,7 +102,7 @@ class RemakeMigrationsTests(TestCase):
         assert "initial = True" in content
         assert (
             "    dependencies = [\n"
-            f"        ('testapp2', '0001_remaked_{today:%Y%m%d}_initial'),\n"
+            f"        ('testapp2', '0001_remaked_{today:%Y%m%d}'),\n"
             "    ]\n" in content
         )
         assert (
