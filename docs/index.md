@@ -6,6 +6,7 @@
 
 installation
 usage
+configuration
 technical-details
 ```
 
