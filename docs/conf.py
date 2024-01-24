@@ -13,6 +13,7 @@ release = version
 # General configuration
 extensions = [
     "myst_parser",
+    "sphinx.ext.autodoc",
 ]
 
 # The suffix of source filenames.

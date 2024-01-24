@@ -12,6 +12,8 @@ from django.db.migrations import Migration
 from django.db.migrations.loader import MigrationLoader
 from django.db.migrations.writer import MigrationWriter
 
+from django_remake_migrations.conf import app_settings
+
 
 class Command(BaseCommand):
     """
@@ -38,6 +40,8 @@ class Command(BaseCommand):
         self.make_migrations()
         # Update new files to be squashed of the old ones
         self.update_new_migrations()
+        # Run other commands
+        self.run_post_commands()
         self.log_info("All done!")
 
     def log_info(self, message: str) -> None:
@@ -185,3 +189,14 @@ class Command(BaseCommand):
         # Don't use 'squashed' in the name as Django tries to be clever
         # and treats the date as the latest number
         return "_".join([number, "remaked", f"{today:%Y%m%d}", *name_parts])
+
+    def run_post_commands(self) -> None:
+        """Run other management commands at the very end."""
+        post_commands = app_settings.REMAKE_MIGRATIONS_POST_COMMANDS
+        if not post_commands:
+            return
+
+        self.log_info("Running post-commands...")
+        for command_with_args in post_commands:
+            self.log_info(f"Running: {' '.join(command_with_args)}")
+            call_command(*command_with_args)
