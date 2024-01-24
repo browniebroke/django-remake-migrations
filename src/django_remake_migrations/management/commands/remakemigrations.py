@@ -68,11 +68,24 @@ class Command(BaseCommand):
         """Recreate migrations from scratch with a unique name."""
         self.log_info("Creating new migrations...")
         name = f"remaked_{dt.date.today():%Y%m%d}"
-        call_command(
-            "makemigrations",
-            "--name",
-            name,
-        )
+        if first_apps := app_settings.REMAKE_MIGRATIONS_FIRST_APPS:
+            self.log_info(f"First apps: {', '.join(first_apps)}...")
+            call_command("makemigrations", "--name", name, *first_apps)
+
+        if last_apps := app_settings.REMAKE_MIGRATIONS_LAST_APPS:
+            apps_to_make = [
+                app_config.label
+                for app_config in apps.get_app_configs()
+                if app_config.label not in last_apps
+            ]
+            self.log_info(f"Middle apps {', '.join(apps_to_make)}...")
+            call_command("makemigrations", "--name", name, *apps_to_make)
+
+            self.log_info(f"Last apps {', '.join(last_apps)}...")
+            call_command("makemigrations", "--name", name, *last_apps)
+
+        # Always run a final round, just in case
+        call_command("makemigrations", "--name", name)
 
     @staticmethod
     def _is_first_party(app_config: AppConfig) -> bool:

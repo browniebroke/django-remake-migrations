@@ -31,6 +31,12 @@ SETTINGS_PREFIX = "REMAKE_MIGRATIONS_"
 class AppSettings:
     """Access this instance as `django_remake_migrations.conf.app_settings`."""
 
+    REMAKE_MIGRATIONS_FIRST_APPS: Sequence[str] = ()
+    """The apps for which to make migrations first."""
+
+    REMAKE_MIGRATIONS_LAST_APPS: Sequence[str] = ()
+    """The apps for which to make migrations last."""
+
     REMAKE_MIGRATIONS_POST_COMMANDS: Sequence[Sequence[str]] = ()
     """Some commands with arguments to run after generating the new migration."""
 
