@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.1.0 (2024-01-24)
+
+### Feature
+
+- Add settings to run some apps first and last (#81) ([`81e18c4`](https://github.com/browniebroke/django-remake-migrations/commit/81e18c42fc8432fbba2aeb07f5ef8052267aedef))
+- Add setting to run other admin commands at the end (#79) ([`1f87053`](https://github.com/browniebroke/django-remake-migrations/commit/1f87053feafaaba326b132ae766d4f16f9317165))
+- Improve logging of `remakemigrations` command (#78) ([`0688b8b`](https://github.com/browniebroke/django-remake-migrations/commit/0688b8b13a00288db493bd6ee173a7d207bce7bc))
+
+### Fix
+
+- Simplify migration name generation (#80) ([`40a8b00`](https://github.com/browniebroke/django-remake-migrations/commit/40a8b00a5df1883cf328f2b7c3eaac454a55ad50))
+
 ## v1.0.0 (2023-11-15)
 
 ## v0.3.2 (2023-11-01)
