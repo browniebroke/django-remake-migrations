@@ -77,7 +77,12 @@ class RemakeMigrationsTests(TestCase):
 
         out, err, returncode = run_command("remakemigrations")
 
-        assert out == ""
+        assert (
+            out == "Removing old migration files...\n"
+            "Creating new migrations...\n"
+            "Updating new migrations...\n"
+            "All done!\n"
+        )
         assert err == ""
         assert returncode == 0
 
