@@ -34,12 +34,23 @@ class Command(BaseCommand):
         """Execute one step after another to avoid side effects between steps."""
         # Remove old migration files
         self.clear_old_migrations()
-        call_command("makemigrations")
+        # Recreate migrations
+        self.make_migrations()
         # Update new files to be squashed of the old ones
         self.update_new_migrations()
+        self.log_info("All done!")
+
+    def log_info(self, message: str) -> None:
+        """Wrapper to help logging successes."""
+        self.stdout.write(self.style.SUCCESS(message))
+
+    def log_error(self, message: str) -> None:
+        """Wrapper to help logging errors."""
+        self.stderr.write(self.style.ERROR(message))
 
     def clear_old_migrations(self) -> None:
         """Remove all pre-existing migration files in first party apps."""
+        self.log_info("Removing old migration files...")
         loader = MigrationLoader(None, ignore_no_migrations=True)
         old_migrations = defaultdict(list)
         for (app_label, migration_name), _migration_obj in loader.graph.nodes.items():
@@ -48,6 +59,11 @@ class Command(BaseCommand):
                 old_migrations[app_label].append((app_label, migration_name))
                 self.remove_migration_file(app_label, migration_name)
         self.old_migrations = dict(old_migrations)
+
+    def make_migrations(self) -> None:
+        """Recreate migrations from scratch."""
+        self.log_info("Creating new migrations...")
+        call_command("makemigrations")
 
     @staticmethod
     def _is_first_party(app_config: AppConfig) -> bool:
@@ -82,6 +98,7 @@ class Command(BaseCommand):
           This is to mark the new migrations as squashed, so they are not actually
           executed by Django, they are simply marked as already applied.
         """
+        self.log_info("Updating new migrations...")
         # Sort old migrations
         sorted_old_migrations = self.sort_migrations_map(self.old_migrations)
         loader = MigrationLoader(None, ignore_no_migrations=True, load=False)
@@ -168,7 +185,3 @@ class Command(BaseCommand):
         # Don't use 'squashed' in the name as Django tries to be clever
         # and treats the date as the latest number
         return "_".join([number, "remaked", f"{today:%Y%m%d}", *name_parts])
-
-    def log_error(self, message: str) -> None:
-        """Wrapper to help logging errors."""
-        self.stderr.write(self.style.ERROR(message))
