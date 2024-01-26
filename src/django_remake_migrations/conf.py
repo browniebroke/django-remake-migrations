@@ -14,6 +14,7 @@ add the following to your project settings:
         ["migrate"],
     ]
 """
+
 from __future__ import annotations
 
 from collections.abc import Sequence
