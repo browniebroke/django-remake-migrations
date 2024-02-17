@@ -1,47 +1,33 @@
 from __future__ import annotations
 
 import os
-import sys
-import time
 from datetime import datetime
 from pathlib import Path
 from textwrap import dedent
 from typing import Generator
 
 import pytest
-from django.test import TestCase, override_settings
+from django.test import TestCase
 
-from tests.utils import EMPTY_MIGRATION, run_command
+from tests.utils import EMPTY_MIGRATION, run_command, setup_test_apps
 
 
-class RemakeMigrationsTests(TestCase):
+class TestSimpleCase(TestCase):
     @pytest.fixture(autouse=True)
     def tmp_path_fixture(self, tmp_path: Path) -> Generator[None, None, None]:
-        migrations_module_name1 = "migrations" + str(time.time()).replace(".", "") + "1"
-        self.testapp_mig_dir = tmp_path / migrations_module_name1
-        self.testapp_mig_dir.mkdir()
-
-        migrations_module_name2 = "migrations" + str(time.time()).replace(".", "") + "2"
-        self.testapp2_mig_dir = tmp_path / migrations_module_name2
-        self.testapp2_mig_dir.mkdir()
-
-        sys.path.insert(0, str(tmp_path))
-        try:
-            with override_settings(
-                MIGRATION_MODULES={
-                    "testapp": migrations_module_name1,
-                    "testapp2": migrations_module_name2,
-                }
-            ):
-                yield
-        finally:
-            sys.path.pop(0)
+        with setup_test_apps(
+            tmp_path,
+            "tests.simple.app1",
+            "tests.simple.app2",
+        ) as self.app_mig_dirs:
+            yield
 
     def test_success_all_steps(self):
-        (self.testapp_mig_dir / "__init__.py").touch()
-        initial_0001 = self.testapp_mig_dir / "0001_initial.py"
+        app1_mig_dir = self.app_mig_dirs["app1"]
+        (app1_mig_dir / "__init__.py").touch()
+        initial_0001 = app1_mig_dir / "0001_initial.py"
         initial_0001.write_text(EMPTY_MIGRATION)
-        migration_0002 = self.testapp_mig_dir / "0002_something.py"
+        migration_0002 = app1_mig_dir / "0002_something.py"
         migration_0002.write_text(
             dedent(
                 """\
@@ -49,14 +35,14 @@ class RemakeMigrationsTests(TestCase):
 
                 class Migration(migrations.Migration):
                     dependencies = [
-                        ('testapp', '0001_initial'),
-                        ('testapp2', '0001_initial'),
+                        ('app1', '0001_initial'),
+                        ('app2', '0001_initial'),
                     ]
                     operations = []
                 """
             )
         )
-        migration_0003 = self.testapp_mig_dir / "0003_other_thing.py"
+        migration_0003 = app1_mig_dir / "0003_other_thing.py"
         migration_0003.write_text(
             dedent(
                 """\
@@ -64,15 +50,16 @@ class RemakeMigrationsTests(TestCase):
 
                 class Migration(migrations.Migration):
                     dependencies = [
-                        ('testapp', '0002_something'),
+                        ('app1', '0002_something'),
                     ]
                     operations = []
                 """
             )
         )
 
-        (self.testapp2_mig_dir / "__init__.py").touch()
-        initial_0001 = self.testapp2_mig_dir / "0001_initial.py"
+        app2_mig_dir = self.app_mig_dirs["app2"]
+        (app2_mig_dir / "__init__.py").touch()
+        initial_0001 = app2_mig_dir / "0001_initial.py"
         initial_0001.write_text(EMPTY_MIGRATION)
 
         out, err, returncode = run_command("remakemigrations")
@@ -86,7 +73,7 @@ class RemakeMigrationsTests(TestCase):
         assert err == ""
         assert returncode == 0
 
-        dir_files = sorted(os.listdir(self.testapp_mig_dir))
+        dir_files = sorted(os.listdir(app1_mig_dir))
         today = datetime.today()
         initial_remade_name = f"0001_remaked_{today:%Y%m%d}.py"
         assert dir_files == [
@@ -94,7 +81,7 @@ class RemakeMigrationsTests(TestCase):
             "__init__.py",
         ]
 
-        initial_remade = self.testapp_mig_dir / initial_remade_name
+        initial_remade = app1_mig_dir / initial_remade_name
         content = initial_remade.read_text()
 
         assert "from django.db import migrations" in content
@@ -102,11 +89,11 @@ class RemakeMigrationsTests(TestCase):
         assert "initial = True" in content
         assert (
             "    dependencies = [\n"
-            f"        ('testapp2', '0001_remaked_{today:%Y%m%d}'),\n"
+            f"        ('app2', '0001_remaked_{today:%Y%m%d}'),\n"
             "    ]\n" in content
         )
         assert (
-            "replaces = [('testapp', '0001_initial'), "
-            "('testapp', '0002_something'), "
-            "('testapp', '0003_other_thing')]" in content
+            "replaces = [('app1', '0001_initial'), "
+            "('app1', '0002_something'), "
+            "('app1', '0003_other_thing')]" in content
         )

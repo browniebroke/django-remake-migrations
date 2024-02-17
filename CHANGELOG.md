@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.1 (2024-02-06)
+
+### Fix
+
+- Update dependency django to v4.2.10 ([`d0e7164`](https://github.com/browniebroke/django-remake-migrations/commit/d0e7164172be29abc9be0f2a90be5c6650601ea0))
+
 ## v1.1.0 (2024-01-24)
 
 ### Feature
