@@ -1,46 +1,26 @@
 from __future__ import annotations
 
 import os
-import sys
-import time
 from datetime import datetime
 from pathlib import Path
 from textwrap import dedent
 from typing import Generator
 
 import pytest
-from django.test import TestCase, override_settings
+from django.test import TestCase
 
-from tests.utils import EMPTY_MIGRATION, run_command
+from tests.utils import EMPTY_MIGRATION, run_command, setup_test_apps
 
 
 class TestSimpleCase(TestCase):
     @pytest.fixture(autouse=True)
     def tmp_path_fixture(self, tmp_path: Path) -> Generator[None, None, None]:
-        migration_modules = {}
-        self.app_mig_dirs = {}
-        for app_name in ["app1", "app2"]:
-            mig_module_name = (
-                "migrations" + str(time.time()).replace(".", "") + app_name
-            )
-            migration_modules[app_name] = mig_module_name
-            self.app_mig_dirs[app_name] = tmp_path / mig_module_name
-            self.app_mig_dirs[app_name].mkdir()
-
-        sys.path.insert(0, str(tmp_path))
-        try:
-            with override_settings(
-                INSTALLED_APPS=[
-                    "tests.simple.app1",
-                    "tests.simple.app2",
-                    "django_remake_migrations",
-                    "django.contrib.contenttypes",
-                ],
-                MIGRATION_MODULES=migration_modules,
-            ):
-                yield
-        finally:
-            sys.path.pop(0)
+        with setup_test_apps(
+            tmp_path,
+            "tests.simple.app1",
+            "tests.simple.app2",
+        ) as self.app_mig_dirs:
+            yield
 
     def test_success_all_steps(self):
         app1_mig_dir = self.app_mig_dirs["app1"]
