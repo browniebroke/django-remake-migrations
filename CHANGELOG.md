@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.1.2 (2024-03-11)
+
+### Fix
+
+- Update dependency django to v4.2.11 ([`c2abf8a`](https://github.com/browniebroke/django-remake-migrations/commit/c2abf8a78a319ca1d83b2e435c490eb764ca650d))
+
+### Test
+
+- Reorganise test apps to enable adding more cases (#103) ([`c4fc2ee`](https://github.com/browniebroke/django-remake-migrations/commit/c4fc2ee86a7819fbb1ef92b6a6439f8a5658ce06))
+
 ## v1.1.1 (2024-02-06)
 
 ### Fix
