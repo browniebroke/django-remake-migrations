@@ -169,7 +169,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def sort_migrations_map(
-        migrations_map: dict[str, list[tuple[str, str]]]
+        migrations_map: dict[str, list[tuple[str, str]]],
     ) -> dict[str, list[tuple[str, str]]]:
         """Sort migrations and group them by app."""
         return {
