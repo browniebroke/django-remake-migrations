@@ -39,11 +39,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
+          cache: poetry
           python-version: ${{ matrix.python-version }}
-      - uses: snok/install-poetry@v1.3.4
       - name: Install test dependencies
         run: pip install tox
         shell: bash
