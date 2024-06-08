@@ -39,12 +39,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install poetry
-        run: pipx install poetry
+      - name: Install poetry with export plugin
+        run: |
+          pipx install poetry
+          pipx inject poetry poetry-plugin-export
+          poetry config warnings.export false
+      - name: Poetry export dev deps
+        run: poetry export --without-hashes --only=dev --format=requirements.txt --output=requirements-dev.txt
+        shell: bash
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          cache: poetry
+          cache: pip
           python-version: ${{ matrix.python-version }}
       - name: Install test dependencies
         run: pip install tox
