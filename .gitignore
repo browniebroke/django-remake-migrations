@@ -141,3 +141,6 @@ cython_debug/
 
 # Some files that might be generated in tests
 tests/graph.json
+
+# Generated file
+requirements-dev.txt
