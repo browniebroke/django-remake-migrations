@@ -43,6 +43,7 @@ jobs:
         run: |
           pipx install poetry
           pipx inject poetry poetry-plugin-export
+          poetry config warnings.export false
       - name: Poetry export dev deps
         run: poetry export --without-hashes --only=dev --format=requirements.txt --output=requirements-dev.txt
         shell: bash
