@@ -41,14 +41,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install poetry
         run: pipx install poetry
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          cache: poetry
-          python-version: ${{ matrix.python-version }}
       - name: Poetry export dev deps
         run: poetry export --without-hashes --only=dev --format=requirements.txt --output=requirements-dev.txt
         shell: bash
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          cache: pip
+          python-version: ${{ matrix.python-version }}
       - name: Install test dependencies
         run: pip install tox
         shell: bash
