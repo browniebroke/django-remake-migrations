@@ -46,6 +46,9 @@ jobs:
         with:
           cache: poetry
           python-version: ${{ matrix.python-version }}
+      - name: Poetry export dev deps
+        run: poetry export --without-hashes --only=dev --format=requirements.txt --output=requirements-dev.txt
+        shell: bash
       - name: Install test dependencies
         run: pip install tox
         shell: bash
