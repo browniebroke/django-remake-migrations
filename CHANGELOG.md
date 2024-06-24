@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.0.0 (2024-06-24)
+
+### Breaking
+
+- Drop django &lt; 4.2 support (#208) ([`bc04435`](https://github.com/browniebroke/django-remake-migrations/commit/bc0443552f1115cc14efa8a7260d5ad753b2d426))
+
 ## v1.1.3 (2024-05-06)
 
 ### Fix
