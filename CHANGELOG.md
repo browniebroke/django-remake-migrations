@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.1.0 (2024-08-06)
+
+### Feature
+
+- Add django 5.1 support (#245) ([`1782456`](https://github.com/browniebroke/django-remake-migrations/commit/1782456d0ca98c26acc3100b47c35b1910d6db04))
+
 ## v2.0.0 (2024-06-24)
 
 ### Breaking
