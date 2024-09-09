@@ -1,25 +1,29 @@
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = [ "poetry-core>=1" ]
+
 [tool.poetry]
 name = "django-remake-migrations"
 version = "2.1.0"
 description = "A Django admin command to recreate all migrations in a project."
-authors = ["Bruno Alla <oss@browniebroke.com>"]
+authors = [ "Bruno Alla <oss@browniebroke.com>" ]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/browniebroke/django-remake-migrations"
 documentation = "https://django-remake-migrations.readthedocs.io"
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
-    "Intended Audience :: Developers",
-    "Natural Language :: English",
-    "Operating System :: OS Independent",
-    "Framework :: Django",
-    "Framework :: Django :: 4.2",
-    "Framework :: Django :: 5.0",
-    "Framework :: Django :: 5.1",
-    "Topic :: Software Development :: Libraries",
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Framework :: Django",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Framework :: Django :: 5.1",
+  "Topic :: Software Development :: Libraries",
 ]
 packages = [
-    { include = "django_remake_migrations", from = "src" },
+  { include = "django_remake_migrations", from = "src" },
 ]
 
 [tool.poetry.urls]
@@ -44,30 +48,42 @@ sphinx = { version = ">=4.0", python = ">=3.11" }
 furo = { version = ">=2023.5.20", python = ">=3.11" }
 sphinx-autobuild = { version = "^2024.0.0", python = ">=3.11" }
 
-[tool.semantic_release]
-version_toml = ["pyproject.toml:tool.poetry.version"]
-version_variables = [
-    "src/django_remake_migrations/__init__.py:__version__",
-    "docs/conf.py:version",
+[tool.ruff]
+target-version = "py38"
+line-length = 88
+
+lint.select = [
+  "B",   # flake8-bugbear
+  "C4",  # flake8-comprehensions
+  "D",   # flake8-docstrings
+  "E",   # pycodestyle
+  "F",   # pyflake
+  "I",   # isort
+  "RUF", # ruff specific
+  "S",   # flake8-bandit
+  "UP",  # pyupgrade
+  "W",   # pycodestyle
 ]
-build_command = "pip install poetry && poetry build"
-
-[tool.semantic_release.changelog]
-exclude_commit_patterns = [
-    "chore.*",
-    "ci.*",
-    "Merge pull request .*",
+lint.ignore = [
+  "D100", # Missing docstring in public module
+  "D104", # Missing docstring in public package
+  "D107", # Missing docstring in `__init__`
+  "D203", # 1 blank line required before class docstring
+  "D212", # Multi-line docstring summary should start at the first line
+  "D401", # First line of docstring should be in imperative mood
 ]
-
-[tool.semantic_release.changelog.environment]
-keep_trailing_newline = true
-
-[tool.semantic_release.branches.main]
-match = "main"
-
-[tool.semantic_release.branches.noop]
-match = "(?!main$)"
-prerelease = true
+lint.per-file-ignores."conftest.py" = [ "D100" ]
+lint.per-file-ignores."docs/conf.py" = [ "D100" ]
+lint.per-file-ignores."setup.py" = [ "D100" ]
+lint.per-file-ignores."tests/**/*" = [
+  "D100",
+  "D101",
+  "D102",
+  "D103",
+  "D104",
+  "S101",
+]
+lint.isort.known-first-party = [ "django_remake_migrations", "tests" ]
 
 [tool.pytest.ini_options]
 addopts = """\
@@ -78,7 +94,7 @@ addopts = """\
     --cov-report=xml
     --ds=tests.settings
     """
-pythonpath = ["src"]
+pythonpath = [ "src" ]
 django_find_project = false
 
 [tool.coverage.run]
@@ -86,54 +102,12 @@ branch = true
 
 [tool.coverage.report]
 exclude_lines = [
-    "pragma: no cover",
-    "@overload",
-    "if TYPE_CHECKING",
-    "raise NotImplementedError",
-    'if __name__ == "__main__":',
+  "pragma: no cover",
+  "@overload",
+  "if TYPE_CHECKING",
+  "raise NotImplementedError",
+  'if __name__ == "__main__":',
 ]
-
-[tool.ruff]
-target-version = "py38"
-line-length = 88
-
-[tool.ruff.lint]
-ignore = [
-    "D203", # 1 blank line required before class docstring
-    "D212", # Multi-line docstring summary should start at the first line
-    "D100", # Missing docstring in public module
-    "D104", # Missing docstring in public package
-    "D107", # Missing docstring in `__init__`
-    "D401", # First line of docstring should be in imperative mood
-]
-select = [
-    "B",   # flake8-bugbear
-    "D",   # flake8-docstrings
-    "C4",  # flake8-comprehensions
-    "S",   # flake8-bandit
-    "F",   # pyflake
-    "E",   # pycodestyle
-    "W",   # pycodestyle
-    "UP",  # pyupgrade
-    "I",   # isort
-    "RUF", # ruff specific
-]
-
-[tool.ruff.lint.per-file-ignores]
-"tests/**/*" = [
-    "D100",
-    "D101",
-    "D102",
-    "D103",
-    "D104",
-    "S101",
-]
-"setup.py" = ["D100"]
-"conftest.py" = ["D100"]
-"docs/conf.py" = ["D100"]
-
-[tool.ruff.lint.isort]
-known-first-party = ["django_remake_migrations", "tests"]
 
 [tool.mypy]
 check_untyped_defs = true
@@ -146,8 +120,8 @@ show_error_codes = true
 warn_unreachable = true
 warn_unused_ignores = true
 exclude = [
-    'docs/.*',
-    'setup.py',
+  'docs/.*',
+  'setup.py',
 ]
 
 [[tool.mypy.overrides]]
@@ -158,6 +132,27 @@ allow_untyped_defs = true
 module = "docs.*"
 ignore_errors = true
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.semantic_release]
+version_toml = [ "pyproject.toml:tool.poetry.version" ]
+version_variables = [
+  "src/django_remake_migrations/__init__.py:__version__",
+  "docs/conf.py:version",
+]
+build_command = "pip install poetry && poetry build"
+
+[tool.semantic_release.changelog]
+exclude_commit_patterns = [
+  "chore.*",
+  "ci.*",
+  "Merge pull request .*",
+]
+
+[tool.semantic_release.changelog.environment]
+keep_trailing_newline = true
+
+[tool.semantic_release.branches.main]
+match = "main"
+
+[tool.semantic_release.branches.noop]
+match = "(?!main$)"
+prerelease = true
