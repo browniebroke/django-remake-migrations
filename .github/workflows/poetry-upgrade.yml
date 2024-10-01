@@ -3,7 +3,7 @@ name: Upgrader
 on:
   workflow_dispatch:
   schedule:
-    - cron: "8 19 18 * *"
+    - cron: "8 19 18 1-9,11-12 *"
 
 jobs:
   upgrade:
