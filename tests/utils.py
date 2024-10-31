@@ -3,10 +3,10 @@ from __future__ import annotations
 import contextlib
 import sys
 import time
+from collections.abc import Generator
 from io import StringIO
 from pathlib import Path
 from textwrap import dedent
-from typing import Generator
 
 from django.core.management import call_command
 from django.test import override_settings
