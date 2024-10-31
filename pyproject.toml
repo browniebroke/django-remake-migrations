@@ -4,7 +4,7 @@ requires = [ "poetry-core>=1" ]
 
 [tool.poetry]
 name = "django-remake-migrations"
-version = "2.1.0"
+version = "2.2.0"
 description = "A Django admin command to recreate all migrations in a project."
 authors = [ "Bruno Alla <oss@browniebroke.com>" ]
 license = "MIT"
