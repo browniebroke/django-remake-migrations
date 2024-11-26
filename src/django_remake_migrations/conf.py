@@ -17,8 +17,9 @@ add the following to your project settings:
 
 from __future__ import annotations
 
+from collections import defaultdict
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 from django.conf import settings as django_settings
@@ -40,6 +41,22 @@ class AppSettings:
 
     REMAKE_MIGRATIONS_POST_COMMANDS: Sequence[Sequence[str]] = ()
     """Some commands with arguments to run after generating the new migration."""
+
+    REMAKE_MIGRATIONS_EXTENSIONS: dict[str, list[str]] = field(
+        default_factory=lambda: defaultdict(list)
+    )
+    """
+    The extensions database to enable for each app.
+
+    Keys are app labels and values are a list of the full import path
+    of the extension classes.
+
+    .. code-block:: python
+
+        REMAKE_MIGRATIONS_EXTENSIONS = {
+            "app1": ["django.contrib.postgres.operations.TrigramExtension"],
+        }
+    """
 
     def __getattribute__(self, __name: str) -> Any:
         """
