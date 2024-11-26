@@ -21,7 +21,16 @@ SETTINGS_PREFIX = "REMAKE_MIGRATIONS_"
 
 @dataclass(frozen=True)
 class AppSettings:
-    """Access this instance as `django_remake_migrations.conf.app_settings`."""
+    """
+    Proxy class to encapsulate all the app settings.
+
+    This instance should be accessed via the singleton
+    ``django_remake_migrations.conf.app_settings``.
+
+    You shouldn't have to set any of these yourself, the class checks a Django
+    settings with the same name and use these if defined, defaulting to the
+    values documented here.
+    """
 
     REMAKE_MIGRATIONS_FIRST_APPS: Sequence[str] = ()
     """The apps for which to make migrations first."""
