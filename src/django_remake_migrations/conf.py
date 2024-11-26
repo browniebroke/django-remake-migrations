@@ -40,7 +40,18 @@ class AppSettings:
     """The apps for which to make migrations last."""
 
     REMAKE_MIGRATIONS_POST_COMMANDS: Sequence[Sequence[str]] = ()
-    """Some commands with arguments to run after generating the new migration."""
+    """
+    Some commands with arguments to run after generating the new migration.
+
+    Each command and arguments should be specified as a list or tuple. For
+    example, to integrate with django-linear-migrations:
+
+    .. code-block:: python
+
+        REMAKE_MIGRATIONS_POST_COMMANDS = [
+            ["create_max_migration_files", "--recreate"],
+        ]
+    """
 
     REMAKE_MIGRATIONS_EXTENSIONS: dict[str, list[str]] = field(
         default_factory=lambda: defaultdict(list)
