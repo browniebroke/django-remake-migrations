@@ -3,16 +3,6 @@ These are the available settings.
 
 All attributes prefixed ``REMAKE_MIGRATIONS_*`` can be overridden from your Django
 project's settings module by defining a setting with the same name.
-
-For instance, to run ``showmigrations`` and ``migrate`` after remaking,
-add the following to your project settings:
-
-.. code-block:: python
-
-    REMAKE_MIGRATIONS_POST_COMMANDS = [
-        ["showmigrations"],
-        ["migrate"],
-    ]
 """
 
 from __future__ import annotations
