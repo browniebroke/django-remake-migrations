@@ -7,8 +7,14 @@ from importlib import import_module
 from pathlib import Path
 
 from django.apps import AppConfig, apps
+from django.contrib.postgres.indexes import BloomIndex, GinIndex, OpClass
+from django.contrib.postgres.operations import (
+    BloomExtension,
+    BtreeGinExtension,
+    TrigramExtension,
+)
 from django.core.management import BaseCommand, call_command
-from django.db.migrations import Migration
+from django.db.migrations import CreateModel, Migration
 from django.db.migrations.loader import MigrationLoader
 from django.db.migrations.writer import MigrationWriter
 
@@ -164,6 +170,7 @@ class Command(BaseCommand):
                     migration_obj.replaces = [replaced_migration]
 
                 migration_obj.initial = True
+                self.ensure_extensions_enabled(migration_obj)
                 # Rewrite back to the disk
                 self.write_to_disk(migration_obj)
 
@@ -176,6 +183,27 @@ class Command(BaseCommand):
             app_label: sorted(migrations_list)
             for app_label, migrations_list in migrations_map.items()
         }
+
+    def ensure_extensions_enabled(self, migration_obj: Migration):
+        needed_extensions = set()
+        for operation in migration_obj.operations:
+            if isinstance(operation, CreateModel) and (
+                db_indexes := operation.options.get("indexes", [])
+            ):
+                for db_index in db_indexes:
+                    if isinstance(db_index, GinIndex):
+                        if "gin_trgm_ops" in db_index.opclasses or any(
+                            isinstance(exp, OpClass) and exp.name == "gin_trgm_ops"
+                            for exp in db_index.expressions
+                        ):
+                            needed_extensions.add(TrigramExtension())
+                        if "btree_gin_ops" in db_index.opclasses or any(
+                            isinstance(exp, OpClass) and exp.name == "btree_gin_ops"
+                            for exp in db_index.expressions
+                        ):
+                            needed_extensions.add(BtreeGinExtension())
+                    if isinstance(db_index, BloomIndex):
+                        needed_extensions.add(BloomExtension())
 
     @staticmethod
     def write_to_disk(migration_obj: Migration) -> None:
