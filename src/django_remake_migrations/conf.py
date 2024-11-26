@@ -46,10 +46,10 @@ class AppSettings:
         default_factory=lambda: defaultdict(list)
     )
     """
-    The extensions database to enable for each app.
+    The database extensions to enable for each app.
 
     Keys are app labels and values are a list of the full import path
-    of the extension classes.
+    of the extension classes:
 
     .. code-block:: python
 
