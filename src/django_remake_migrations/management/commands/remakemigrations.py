@@ -7,10 +7,12 @@ from importlib import import_module
 from pathlib import Path
 
 from django.apps import AppConfig, apps
+from django.core.exceptions import ImproperlyConfigured
 from django.core.management import BaseCommand, call_command
 from django.db.migrations import Migration
 from django.db.migrations.loader import MigrationLoader
 from django.db.migrations.writer import MigrationWriter
+from django.utils.module_loading import import_string
 
 from django_remake_migrations.conf import app_settings
 
@@ -156,6 +158,7 @@ class Command(BaseCommand):
                 if index == 0:
                     # The first migration will replace the N first ones
                     migration_obj.replaces = old_migrations_list[:first_replaces_count]
+                    self.add_needed_database_extensions(migration_obj)
                 else:
                     # Otherwise, we replace a single migration
                     replaced_migration = old_migrations_list[
@@ -176,6 +179,22 @@ class Command(BaseCommand):
             app_label: sorted(migrations_list)
             for app_label, migrations_list in migrations_map.items()
         }
+
+    @staticmethod
+    def add_needed_database_extensions(migration_obj: Migration) -> None:
+        """Add DB extensions for the app to the migration file."""
+        app_label = migration_obj.app_label
+        extensions = app_settings.REMAKE_MIGRATIONS_EXTENSIONS.get(app_label)
+        if not extensions:
+            return
+
+        if isinstance(extensions, str):  # type: ignore[unreachable]
+            raise ImproperlyConfigured(
+                "REMAKE_MIGRATIONS_EXTENSIONS values should be a list, not a string."
+            )
+
+        extension_objects = [import_string(ext)() for ext in extensions]
+        migration_obj.operations = [*extension_objects, *migration_obj.operations]
 
     @staticmethod
     def write_to_disk(migration_obj: Migration) -> None:
