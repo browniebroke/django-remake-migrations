@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.3.0 (2024-11-26)
+
+### Documentation
+
+- Improve the documentation page for settings (#330) ([`fd8ae1a`](https://github.com/browniebroke/django-remake-migrations/commit/fd8ae1a4bbf0173ca0f8ec0adf6f7d7faa159cba))
+
+### Features
+
+- Add ability to specify database extensions (#329) ([`706fe3a`](https://github.com/browniebroke/django-remake-migrations/commit/706fe3aa72950de6f0ed975534b078ec1cef2010))
+
 ## v2.2.0 (2024-10-31)
 
 ### Features
@@ -14,7 +24,7 @@
 
 ## v2.0.0 (2024-06-24)
 
-### Breaking
+### Features
 
 - Drop django < 4.2 support (#208) ([`bc04435`](https://github.com/browniebroke/django-remake-migrations/commit/bc0443552f1115cc14efa8a7260d5ad753b2d426))
 
@@ -54,7 +64,7 @@
 
 ## v1.0.0 (2023-11-15)
 
-### Breaking
+### Chores
 
 - Rename package to django_remake_migrations ([`46612dd`](https://github.com/browniebroke/django-remake-migrations/commit/46612dd77ef96a0ebfe55d634171f25a7fd8a534))
 
