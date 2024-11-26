@@ -3,16 +3,6 @@ These are the available settings.
 
 All attributes prefixed ``REMAKE_MIGRATIONS_*`` can be overridden from your Django
 project's settings module by defining a setting with the same name.
-
-For instance, to run ``showmigrations`` and ``migrate`` after remaking,
-add the following to your project settings:
-
-.. code-block:: python
-
-    REMAKE_MIGRATIONS_POST_COMMANDS = [
-        ["showmigrations"],
-        ["migrate"],
-    ]
 """
 
 from __future__ import annotations
@@ -31,7 +21,16 @@ SETTINGS_PREFIX = "REMAKE_MIGRATIONS_"
 
 @dataclass(frozen=True)
 class AppSettings:
-    """Access this instance as `django_remake_migrations.conf.app_settings`."""
+    """
+    Proxy class to encapsulate all the app settings.
+
+    This instance should be accessed via the singleton
+    ``django_remake_migrations.conf.app_settings``.
+
+    You shouldn't have to set any of these yourself, the class checks a Django
+    settings with the same name and use these if defined, defaulting to the
+    values documented here.
+    """
 
     REMAKE_MIGRATIONS_FIRST_APPS: Sequence[str] = ()
     """The apps for which to make migrations first."""
@@ -40,7 +39,18 @@ class AppSettings:
     """The apps for which to make migrations last."""
 
     REMAKE_MIGRATIONS_POST_COMMANDS: Sequence[Sequence[str]] = ()
-    """Some commands with arguments to run after generating the new migration."""
+    """
+    Django management commands to run after generating the new migration.
+
+    Each command and its arguments should be specified as a list or tuple.
+    For example, to integrate with django-linear-migrations:
+
+    .. code-block:: python
+
+        REMAKE_MIGRATIONS_POST_COMMANDS = [
+            ["create_max_migration_files", "--recreate"],
+        ]
+    """
 
     REMAKE_MIGRATIONS_EXTENSIONS: dict[str, list[str]] = field(
         default_factory=lambda: defaultdict(list)
