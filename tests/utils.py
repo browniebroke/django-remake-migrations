@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import contextlib
+import random
 import sys
-import time
 from collections.abc import Generator
 from io import StringIO
 from pathlib import Path
@@ -44,9 +44,10 @@ def setup_test_apps(
     """
     migration_modules = {}
     app_mig_dirs: dict[str, Path] = {}
+    rand_part = random.randint(100_000, 999_999)  # noqa S311
     for app in apps_to_install:
         app_name = app.split(".")[-1]
-        mig_module_name = "migrations" + str(time.time()).replace(".", "") + app_name
+        mig_module_name = f"migrations_{rand_part}_{app_name}"
         migration_modules[app_name] = mig_module_name
         app_mig_dirs[app_name] = tmp_path / mig_module_name
         app_mig_dirs[app_name].mkdir()
