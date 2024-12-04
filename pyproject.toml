@@ -38,7 +38,7 @@ django = ">=4.2"
 pytest = "^8.0.0"
 pytest-cov = "^6.0.0"
 pytest-django = "^4.5"
-psycopg = { version = "3.1.18", extras = [ "binary" ] }
+psycopg = { version = "3.2.3", extras = [ "binary" ] }
 
 [tool.poetry.group.docs]
 optional = true
