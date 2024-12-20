@@ -2,6 +2,56 @@
 build-backend = "setuptools.build_meta"
 requires = [ "setuptools" ]
 
+[project]
+name = "django-remake-migrations"
+version = "2.3.0"
+description = "A Django admin command to recreate all migrations in a project."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+  { name = "Bruno Alla", email = "oss@browniebroke.com" },
+]
+requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Framework :: Django",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Framework :: Django :: 5.1",
+  "Intended Audience :: Developers",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Libraries",
+]
+
+dependencies = [
+  "django>=4.2",
+]
+urls."Bug Tracker" = "https://github.com/browniebroke/django-remake-migrations/issues"
+urls.Changelog = "https://github.com/browniebroke/django-remake-migrations/blob/main/CHANGELOG.md"
+urls.documentation = "https://django-remake-migrations.readthedocs.io"
+urls.repository = "https://github.com/browniebroke/django-remake-migrations"
+
+[dependency-groups]
+dev = [
+  "psycopg[binary]==3.1.18",
+  "pytest>=8,<9",
+  "pytest-cov>=6,<7",
+  "pytest-django>=4.5,<5",
+]
+docs = [
+  "furo>=2023.5.20; python_version>='3.11'",
+  "myst-parser>=0.16; python_version>='3.11'",
+  "sphinx>=4; python_version>='3.11'",
+  "sphinx-autobuild>=2024,<2025; python_version>='3.11'",
+]
+
 [tool.ruff]
 target-version = "py39"
 line-length = 88
@@ -115,48 +165,3 @@ match = "main"
 [tool.semantic_release.branches.noop]
 match = "(?!main$)"
 prerelease = true
-
-[dependency-groups]
-dev = [
-    "pytest<9.0.0,>=8.0.0",
-    "pytest-cov<7.0.0,>=6.0.0",
-    "pytest-django<5.0,>=4.5",
-    "psycopg[binary]==3.1.18",
-]
-docs = [
-    "myst-parser>=0.16; python_version >= \"3.11\"",
-    "sphinx>=4.0; python_version >= \"3.11\"",
-    "furo>=2023.5.20; python_version >= \"3.11\"",
-    "sphinx-autobuild<2025.0.0,>=2024.0.0; python_version >= \"3.11\"",
-]
-
-[project]
-authors = [
-    {name = "Bruno Alla", email = "oss@browniebroke.com"},
-]
-license = {text = "MIT"}
-requires-python = ">=3.9"
-dependencies = [
-    "django>=4.2",
-]
-name = "django-remake-migrations"
-version = "2.3.0"
-description = "A Django admin command to recreate all migrations in a project."
-readme = "README.md"
-classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
-    "Intended Audience :: Developers",
-    "Natural Language :: English",
-    "Operating System :: OS Independent",
-    "Framework :: Django",
-    "Framework :: Django :: 4.2",
-    "Framework :: Django :: 5.0",
-    "Framework :: Django :: 5.1",
-    "Topic :: Software Development :: Libraries",
-]
-
-[project.urls]
-"Bug Tracker" = "https://github.com/browniebroke/django-remake-migrations/issues"
-Changelog = "https://github.com/browniebroke/django-remake-migrations/blob/main/CHANGELOG.md"
-repository = "https://github.com/browniebroke/django-remake-migrations"
-documentation = "https://django-remake-migrations.readthedocs.io"
