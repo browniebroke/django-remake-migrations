@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.4.0 (2024-12-20)
+
+### Features
+
+- Migrate packaging to uv (#350) ([`c9eacf7`](https://github.com/browniebroke/django-remake-migrations/commit/c9eacf7ca91f17b6532056aecf036c7ca1010e75))
+
+### Testing
+
+- Fix flaky test due to time-dependency ([`4d1fc11`](https://github.com/browniebroke/django-remake-migrations/commit/4d1fc1103da936d2be06fd6780522ea35b880200))
+
 ## v2.3.0 (2024-11-26)
 
 ### Documentation
