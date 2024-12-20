@@ -45,8 +45,7 @@ jobs:
       - name: Poetry export dev deps
         run: poetry export --without-hashes --only=dev --format=requirements.txt --output=requirements-dev.txt
         shell: bash
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           cache: pip
           python-version: ${{ matrix.python-version }}
@@ -56,8 +55,7 @@ jobs:
       - name: Run tests
         run: tox -f py$(echo ${{ matrix.python-version }} | tr -d .)
         shell: bash
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 

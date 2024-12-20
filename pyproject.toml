@@ -1,53 +1,6 @@
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = [ "poetry-core>=1" ]
-
-[tool.poetry]
-name = "django-remake-migrations"
-version = "2.3.0"
-description = "A Django admin command to recreate all migrations in a project."
-authors = [ "Bruno Alla <oss@browniebroke.com>" ]
-license = "MIT"
-readme = "README.md"
-repository = "https://github.com/browniebroke/django-remake-migrations"
-documentation = "https://django-remake-migrations.readthedocs.io"
-classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
-  "Intended Audience :: Developers",
-  "Natural Language :: English",
-  "Operating System :: OS Independent",
-  "Framework :: Django",
-  "Framework :: Django :: 4.2",
-  "Framework :: Django :: 5.0",
-  "Framework :: Django :: 5.1",
-  "Topic :: Software Development :: Libraries",
-]
-packages = [
-  { include = "django_remake_migrations", from = "src" },
-]
-
-[tool.poetry.urls]
-"Bug Tracker" = "https://github.com/browniebroke/django-remake-migrations/issues"
-"Changelog" = "https://github.com/browniebroke/django-remake-migrations/blob/main/CHANGELOG.md"
-
-[tool.poetry.dependencies]
-python = "^3.9"
-django = ">=4.2"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.0.0"
-pytest-cov = "^6.0.0"
-pytest-django = "^4.5"
-psycopg = { version = "3.1.18", extras = [ "binary" ] }
-
-[tool.poetry.group.docs]
-optional = true
-
-[tool.poetry.group.docs.dependencies]
-myst-parser = { version = ">=0.16", python = ">=3.11" }
-sphinx = { version = ">=4.0", python = ">=3.11" }
-furo = { version = ">=2023.5.20", python = ">=3.11" }
-sphinx-autobuild = { version = "^2024.0.0", python = ">=3.11" }
+build-backend = "setuptools.build_meta"
+requires = [ "setuptools" ]
 
 [tool.ruff]
 target-version = "py39"
@@ -134,12 +87,17 @@ module = "docs.*"
 ignore_errors = true
 
 [tool.semantic_release]
-version_toml = [ "pyproject.toml:tool.poetry.version" ]
+version_toml = [ "pyproject.toml:project.version" ]
 version_variables = [
   "src/django_remake_migrations/__init__.py:__version__",
   "docs/conf.py:version",
 ]
-build_command = "pip install poetry && poetry build"
+build_command = """
+pip install uv
+uv lock
+git add uv.lock
+uv build
+"""
 
 [tool.semantic_release.changelog]
 exclude_commit_patterns = [
@@ -157,3 +115,48 @@ match = "main"
 [tool.semantic_release.branches.noop]
 match = "(?!main$)"
 prerelease = true
+
+[dependency-groups]
+dev = [
+    "pytest<9.0.0,>=8.0.0",
+    "pytest-cov<7.0.0,>=6.0.0",
+    "pytest-django<5.0,>=4.5",
+    "psycopg[binary]==3.1.18",
+]
+docs = [
+    "myst-parser>=0.16; python_version >= \"3.11\"",
+    "sphinx>=4.0; python_version >= \"3.11\"",
+    "furo>=2023.5.20; python_version >= \"3.11\"",
+    "sphinx-autobuild<2025.0.0,>=2024.0.0; python_version >= \"3.11\"",
+]
+
+[project]
+authors = [
+    {name = "Bruno Alla", email = "oss@browniebroke.com"},
+]
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = [
+    "django>=4.2",
+]
+name = "django-remake-migrations"
+version = "2.3.0"
+description = "A Django admin command to recreate all migrations in a project."
+readme = "README.md"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/browniebroke/django-remake-migrations/issues"
+Changelog = "https://github.com/browniebroke/django-remake-migrations/blob/main/CHANGELOG.md"
+repository = "https://github.com/browniebroke/django-remake-migrations"
+documentation = "https://django-remake-migrations.readthedocs.io"
