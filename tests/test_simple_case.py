@@ -73,7 +73,9 @@ class TestSimpleCase(TestCase):
         assert err == ""
         assert returncode == 0
 
-        dir_files = sorted(os.listdir(app1_mig_dir))
+        dir_files = sorted(
+            [file for file in os.listdir(app1_mig_dir) if file != "__pycache__"]
+        )
         today = datetime.today()
         initial_remade_name = f"0001_remaked_{today:%Y%m%d}.py"
         assert dir_files == [
