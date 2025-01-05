@@ -9,7 +9,7 @@ on:
 
 jobs:
   hacktoberfest:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: browniebroke/hacktoberfest-labeler-action@v2.3.0
