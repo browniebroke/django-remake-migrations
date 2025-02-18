@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.5.0 (2025-02-18)
+
+### Features
+
+- Add django 5.2 support (#406) ([`2b9edce`](https://github.com/browniebroke/django-remake-migrations/commit/2b9edce796bd802c19389055796be3f86537d0cf))
+
+### Testing
+
+- Fix small flakyness due to __pycache__ folder ([`a647399`](https://github.com/browniebroke/django-remake-migrations/commit/a647399b5a721c5932fe5eb88d41340c8324cf14))
+
 ## v2.4.0 (2024-12-20)
 
 ### Features
