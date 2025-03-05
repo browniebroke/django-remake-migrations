@@ -28,7 +28,7 @@ With that warning out of the way, you can run it with:
 python manage.py remakemigrations
 ```
 
-No options nor arguments specific to that command are supported at the moment.
+If you want to keep the old migration files around, you can use the switch `--keep-old-migrations`.
 
 ## What does it do?
 

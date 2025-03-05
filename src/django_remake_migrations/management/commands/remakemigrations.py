@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime as dt
 import sys
+from argparse import ArgumentParser
 from collections import defaultdict
 from importlib import import_module
 from pathlib import Path
@@ -33,18 +34,33 @@ class Command(BaseCommand):
     """
 
     old_migrations: dict[str, list[tuple[str, str]]]
+    renamed_files: dict[Path, Path]
 
-    def handle(self, *args: str, **options: str) -> None:
+    def add_arguments(self, parser: ArgumentParser) -> None:
+        """Add command arguments."""
+        parser.add_argument(
+            "--keep-old-migrations", action="store_true", dest="keep_old_migrations"
+        )
+
+    def handle(self, *args: str, keep_old_migrations: bool, **options: str) -> None:
         """Execute one step after another to avoid side effects between steps."""
         # Remove old migration files
-        self.clear_old_migrations()
+        self.clear_old_migrations(keep_old_migrations)
         # Recreate migrations
         self.make_migrations()
         # Update new files to be squashed of the old ones
         self.update_new_migrations()
+        # Recreate old migrations
+        if keep_old_migrations:
+            self.restore_old_migrations()
         # Run other commands
         self.run_post_commands()
         self.log_info("All done!")
+
+    def restore_old_migrations(self) -> None:
+        """Restore old migrations after the command."""
+        for old_name, new_name in self.renamed_files.items():
+            Path(new_name).rename(old_name)
 
     def log_info(self, message: str) -> None:
         """Wrapper to help logging successes."""
@@ -54,16 +70,23 @@ class Command(BaseCommand):
         """Wrapper to help logging errors."""
         self.stderr.write(self.style.ERROR(message))
 
-    def clear_old_migrations(self) -> None:
+    def clear_old_migrations(self, keep_old_migrations: bool) -> None:
         """Remove all pre-existing migration files in first party apps."""
         self.log_info("Removing old migration files...")
         loader = MigrationLoader(None, ignore_no_migrations=True)
         old_migrations = defaultdict(list)
+        self.renamed_files = {}
         for (app_label, migration_name), _migration_obj in loader.graph.nodes.items():
             app_config = apps.get_app_config(app_label)
             if self._is_first_party(app_config):
                 old_migrations[app_label].append((app_label, migration_name))
-                self.remove_migration_file(app_label, migration_name)
+                self.renamed_files.update(
+                    self.remove_migration_file(
+                        app_label,
+                        migration_name,
+                        keep_old_migrations=keep_old_migrations,
+                    )
+                )
         self.old_migrations = dict(old_migrations)
 
     def make_migrations(self) -> None:
@@ -98,16 +121,30 @@ class Command(BaseCommand):
         )
 
     @staticmethod
-    def remove_migration_file(app_label: str, migration_name: str) -> None:
-        """Remove file from the disk for the specified migration."""
+    def remove_migration_file(
+        app_label: str, migration_name: str, keep_old_migrations: bool
+    ) -> dict[Path, Path]:
+        """
+        Removes old migration file.
+
+        Remove file from the disk for the specified migration
+        or rename if we need to keep around old migrations.
+        """
         app_migrations_module_name, _ = MigrationLoader.migrations_module(app_label)
         migration_module = import_module(
             f"{app_migrations_module_name}.{migration_name}"
         )
         migration_file = Path(migration_module.__file__)  # type: ignore[arg-type]
-        migration_file.unlink()
+        if keep_old_migrations:
+            new_name = migration_file.with_suffix(".py-backup")
+            migration_file.rename(new_name)
+            ret = {migration_file: new_name}
+        else:
+            migration_file.unlink()
+            ret = {}
         # Invalidate the import cache to avoid loading the old migration
         sys.modules.pop(migration_module.__name__, None)
+        return ret
 
     def update_new_migrations(self) -> None:
         """
