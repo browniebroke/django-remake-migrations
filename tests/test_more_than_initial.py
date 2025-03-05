@@ -127,3 +127,53 @@ class TestReplacesAll(TestCase):
         assert "replaces = [('app_a', '0001_initial')]" in content_app_a_initial
         assert "initial = True" in content_app_a_second
         assert "replaces = [('app_a', '0001_initial')]" in content_app_a_second
+
+
+class TestReplaceOtherApps(TestCase):
+    @pytest.fixture(autouse=True)
+    def tmp_path_fixture(self, tmp_path: Path) -> Generator[None, None, None]:
+        with setup_test_apps(
+            tmp_path,
+            "tests.more_than_initial.app_a",
+            "tests.more_than_initial.app_b",
+        ) as self.app_mig_dirs:
+            yield
+
+    @override_settings(
+        REMAKE_MIGRATIONS_REPLACES_ALL=True,
+        REMAKE_MIGRATIONS_REPLACE_OTHER_APP={"app_a": ["app_b"]},
+    )
+    def test_replace_other_app(self):
+        app_a_mig_dir = self.app_mig_dirs["app_a"]
+        migrations_for_squash_app_a(app_a_mig_dir)
+        app_b_mig_dir = self.app_mig_dirs["app_b"]
+        migrations_for_squash_app_b(app_b_mig_dir)
+
+        out, err, returncode = run_command("remakemigrations")
+
+        assert (
+            out == "Removing old migration files...\n"
+            "Creating new migrations...\n"
+            "Updating new migrations...\n"
+            "All done!\n"
+        )
+        assert err == ""
+        assert returncode == 0
+
+        today = datetime.today()
+        initial_remade_name = f"0001_remaked_{today:%Y%m%d}.py"
+        second_remade_name = f"0002_remaked_{today:%Y%m%d}.py"
+        initial_remade = app_a_mig_dir / initial_remade_name
+        content_app_a_initial = initial_remade.read_text()
+        second_remade = app_a_mig_dir / second_remade_name
+        content_app_a_second = second_remade.read_text()
+
+        assert (
+            "replaces = [('app_a', '0001_initial'), ('app_b', '0001_initial')]"
+            in content_app_a_initial
+        )
+        assert "initial = True" in content_app_a_second
+        assert (
+            "replaces = [('app_a', '0001_initial'), ('app_b', '0001_initial')]"
+            in content_app_a_second
+        )

@@ -202,7 +202,14 @@ class Command(BaseCommand):
                 migration_obj = loader.disk_migrations[migration_key]
 
                 if app_settings.REMAKE_MIGRATIONS_REPLACES_ALL:
-                    migration_obj.replaces = old_migrations_list
+                    replaces_list = set(old_migrations_list)
+                    for (
+                        other_app
+                    ) in app_settings.REMAKE_MIGRATIONS_REPLACE_OTHER_APP.get(
+                        app_label, []
+                    ):
+                        replaces_list.update(sorted_old_migrations[other_app])
+                    migration_obj.replaces = sorted(replaces_list)
                     if index == 0:
                         self.add_needed_database_extensions(migration_obj)
                 else:
