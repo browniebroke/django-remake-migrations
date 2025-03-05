@@ -68,6 +68,9 @@ class AppSettings:
         }
     """
 
+    REMAKE_MIGRATIONS_REPLACES_ALL: bool = False
+    """Make all new migrations in an app replace all old migrations from the app."""
+
     def __getattribute__(self, __name: str) -> Any:
         """
         Check if a Django project settings should override the app default.
