@@ -26,10 +26,12 @@ python manage.py remakemigrations --help
 Which should print the command help:
 
 ```text
-usage: manage.py remakemigrations [-h] [--version] [-v {0,1,2,3}] [--settings SETTINGS] [--pythonpath PYTHONPATH] [--traceback] [--no-color] [--force-color] [--skip-checks]
+usage: manage.py remakemigrations [-h] [--keep-old-migrations] [--version] [-v {0,1,2,3}] [--settings SETTINGS] [--pythonpath PYTHONPATH] [--traceback] [--no-color] [--force-color] [--skip-checks]
 
 options:
   -h, --help            show this help message and exit
+  --keep-old-migrations
+                        Don't delete old migrations files and keep them around.
   --version             Show program's version number and exit.
   -v {0,1,2,3}, --verbosity {0,1,2,3}
                         Verbosity level; 0=minimal output, 1=normal output, 2=verbose output, 3=very verbose output

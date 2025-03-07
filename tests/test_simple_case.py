@@ -12,6 +12,47 @@ from django.test import TestCase
 from tests.utils import EMPTY_MIGRATION, run_command, setup_test_apps
 
 
+def migrations_for_squash_app1(app1_mig_dir: Path) -> None:
+    (app1_mig_dir / "__init__.py").touch()
+    initial_0001 = app1_mig_dir / "0001_initial.py"
+    initial_0001.write_text(EMPTY_MIGRATION)
+    migration_0002 = app1_mig_dir / "0002_something.py"
+    migration_0002.write_text(
+        dedent(
+            """\
+            from django.db import migrations
+
+            class Migration(migrations.Migration):
+                dependencies = [
+                    ('app1', '0001_initial'),
+                    ('app2', '0001_initial'),
+                ]
+                operations = []
+            """
+        )
+    )
+    migration_0003 = app1_mig_dir / "0003_other_thing.py"
+    migration_0003.write_text(
+        dedent(
+            """\
+        from django.db import migrations
+
+        class Migration(migrations.Migration):
+            dependencies = [
+                ('app1', '0002_something'),
+            ]
+            operations = []
+        """
+        )
+    )
+
+
+def migrations_for_squash_app2(app2_mig_dir: Path) -> None:
+    (app2_mig_dir / "__init__.py").touch()
+    initial_0001 = app2_mig_dir / "0001_initial.py"
+    initial_0001.write_text(EMPTY_MIGRATION)
+
+
 class TestSimpleCase(TestCase):
     @pytest.fixture(autouse=True)
     def tmp_path_fixture(self, tmp_path: Path) -> Generator[None, None, None]:
@@ -24,43 +65,9 @@ class TestSimpleCase(TestCase):
 
     def test_success_all_steps(self):
         app1_mig_dir = self.app_mig_dirs["app1"]
-        (app1_mig_dir / "__init__.py").touch()
-        initial_0001 = app1_mig_dir / "0001_initial.py"
-        initial_0001.write_text(EMPTY_MIGRATION)
-        migration_0002 = app1_mig_dir / "0002_something.py"
-        migration_0002.write_text(
-            dedent(
-                """\
-                from django.db import migrations
-
-                class Migration(migrations.Migration):
-                    dependencies = [
-                        ('app1', '0001_initial'),
-                        ('app2', '0001_initial'),
-                    ]
-                    operations = []
-                """
-            )
-        )
-        migration_0003 = app1_mig_dir / "0003_other_thing.py"
-        migration_0003.write_text(
-            dedent(
-                """\
-                from django.db import migrations
-
-                class Migration(migrations.Migration):
-                    dependencies = [
-                        ('app1', '0002_something'),
-                    ]
-                    operations = []
-                """
-            )
-        )
-
+        migrations_for_squash_app1(app1_mig_dir)
         app2_mig_dir = self.app_mig_dirs["app2"]
-        (app2_mig_dir / "__init__.py").touch()
-        initial_0001 = app2_mig_dir / "0001_initial.py"
-        initial_0001.write_text(EMPTY_MIGRATION)
+        migrations_for_squash_app2(app2_mig_dir)
 
         out, err, returncode = run_command("remakemigrations")
 
@@ -98,4 +105,47 @@ class TestSimpleCase(TestCase):
             "replaces = [('app1', '0001_initial'), "
             "('app1', '0002_something'), "
             "('app1', '0003_other_thing')]" in content
+        )
+
+
+class TestKeepOldMigrations(TestCase):
+    @pytest.fixture(autouse=True)
+    def tmp_path_fixture(self, tmp_path: Path) -> Generator[None, None, None]:
+        with setup_test_apps(
+            tmp_path,
+            "tests.simple.app1",
+            "tests.simple.app2",
+        ) as self.app_mig_dirs:
+            yield
+
+    def test_success_all_steps(self):
+        app1_mig_dir = self.app_mig_dirs["app1"]
+        migrations_for_squash_app1(app1_mig_dir)
+        app2_mig_dir = self.app_mig_dirs["app2"]
+        migrations_for_squash_app2(app2_mig_dir)
+
+        out, err, returncode = run_command("remakemigrations", keep_old_migrations=True)
+
+        assert (
+            out == "Backing up old migration files...\n"
+            "Creating new migrations...\n"
+            "Updating new migrations...\n"
+            "All done!\n"
+        )
+        assert err == ""
+        assert returncode == 0
+
+        dir_files = sorted(
+            [file for file in os.listdir(app1_mig_dir) if file != "__pycache__"]
+        )
+        today = datetime.today()
+        initial_remade_name = f"0001_remaked_{today:%Y%m%d}.py"
+        assert dir_files == sorted(
+            [
+                initial_remade_name,
+                "0001_initial.py",
+                "0002_something.py",
+                "0003_other_thing.py",
+                "__init__.py",
+            ]
         )
