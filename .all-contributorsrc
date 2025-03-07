@@ -29,6 +29,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "mikicz",
+      "name": "Mikuláš Poul",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5583319?v=4",
+      "profile": "http://mikulaspoul.cz",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
