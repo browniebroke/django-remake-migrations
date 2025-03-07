@@ -39,7 +39,10 @@ class Command(BaseCommand):
     def add_arguments(self, parser: ArgumentParser) -> None:
         """Add command arguments."""
         parser.add_argument(
-            "--keep-old-migrations", action="store_true", dest="keep_old_migrations"
+            "--keep-old-migrations",
+            action="store_true",
+            dest="keep_old_migrations",
+            help="Don't delete old migrations files and keep them around.",
         )
 
     def handle(self, *args: str, keep_old_migrations: bool, **options: str) -> None:
