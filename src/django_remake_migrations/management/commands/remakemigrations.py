@@ -47,8 +47,8 @@ class Command(BaseCommand):
 
     def handle(self, *args: str, keep_old_migrations: bool, **options: str) -> None:
         """Execute one step after another to avoid side effects between steps."""
-        # Remove old migration files
-        self.clear_old_migrations(keep_old_migrations)
+        # Remove or rename old migration files
+        self.handle_old_migrations(keep_old_migrations)
         # Recreate migrations
         self.make_migrations()
         # Update new files to be squashed of the old ones
@@ -73,9 +73,10 @@ class Command(BaseCommand):
         """Wrapper to help logging errors."""
         self.stderr.write(self.style.ERROR(message))
 
-    def clear_old_migrations(self, keep_old_migrations: bool) -> None:
+    def handle_old_migrations(self, keep_old_migrations: bool) -> None:
         """Remove all pre-existing migration files in first party apps."""
-        self.log_info("Removing old migration files...")
+        action = "Backing up" if keep_old_migrations else "Removing"
+        self.log_info(f"{action} old migration files...")
         loader = MigrationLoader(None, ignore_no_migrations=True)
         old_migrations = defaultdict(list)
         self.renamed_files = {}
@@ -83,13 +84,12 @@ class Command(BaseCommand):
             app_config = apps.get_app_config(app_label)
             if self._is_first_party(app_config):
                 old_migrations[app_label].append((app_label, migration_name))
-                self.renamed_files.update(
-                    self.remove_migration_file(
-                        app_label,
-                        migration_name,
-                        keep_old_migrations=keep_old_migrations,
-                    )
+                rename = self.handle_old_migration_file(
+                    app_label=app_label,
+                    migration_name=migration_name,
+                    keep_old_migrations=keep_old_migrations,
                 )
+                self.renamed_files.update(rename)
         self.old_migrations = dict(old_migrations)
 
     def make_migrations(self) -> None:
@@ -124,11 +124,11 @@ class Command(BaseCommand):
         )
 
     @staticmethod
-    def remove_migration_file(
+    def handle_old_migration_file(
         app_label: str, migration_name: str, keep_old_migrations: bool
     ) -> dict[Path, Path]:
         """
-        Removes old migration file.
+        Removes or rename old migration file.
 
         Remove file from the disk for the specified migration
         or rename if we need to keep around old migrations.
@@ -141,13 +141,13 @@ class Command(BaseCommand):
         if keep_old_migrations:
             new_name = migration_file.with_suffix(".py-backup")
             migration_file.rename(new_name)
-            ret = {migration_file: new_name}
+            rename = {migration_file: new_name}
         else:
             migration_file.unlink()
-            ret = {}
+            rename = {}
         # Invalidate the import cache to avoid loading the old migration
         sys.modules.pop(migration_module.__name__, None)
-        return ret
+        return rename
 
     def update_new_migrations(self) -> None:
         """

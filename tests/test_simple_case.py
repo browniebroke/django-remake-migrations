@@ -127,7 +127,7 @@ class TestKeepOldMigrations(TestCase):
         out, err, returncode = run_command("remakemigrations", keep_old_migrations=True)
 
         assert (
-            out == "Removing old migration files...\n"
+            out == "Backing up old migration files...\n"
             "Creating new migrations...\n"
             "Updating new migrations...\n"
             "All done!\n"
