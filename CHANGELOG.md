@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.6.0 (2025-03-07)
+
+### Features
+
+- Add new command option to keep old migrations around (#419) ([`bc4b645`](https://github.com/browniebroke/django-remake-migrations/commit/bc4b645538d07334e7195cae4d6e4e7a0ef397cd))
+
 ## v2.5.0 (2025-02-18)
 
 ### Features
