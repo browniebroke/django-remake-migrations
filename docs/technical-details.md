@@ -26,15 +26,11 @@ On a project with enough cross-apps dependencies, it can become arduous to run `
 
 ### Operations
 
-The built-in `squashmigrations` creates a new migration file containing all the operations from squashed migrations, in a single file. This reduces the number of migration files, but it doesn't simplify the migrations themselves, the number of operations is roughly the same.
-
-If we add a model to an app, make some changes to it, and after a while remove it, we could optimise the migration by dropping all operations related to this model, but `squashmigrations` doesn't do that.
-
-Django 4.1 introduced a new [`optimizemigrations` command](https://docs.djangoproject.com/en/stableref/django-admin/#optimizemigration) which sounds like it might be doing just this, but I never had a chance to use it.
+The built-in `squashmigrations` creates a new migration file containing all the operations from squashed migrations, in a single file. This reduces the number of migration files, and tries to optimize the number of operations. However, while Django tries its best, it can only do so much, and may leave more operations than strictly necessary. This is being improved on a regular basis.
 
 ### Correctness
 
-The built-in `squanshmigrations` command, needs to be correct in all cases. It needs to produce new migrations that can work even if they are deployed to systems where not all migrations are applied yet. This is especially needed for pluggable Django apps, where the developer of the app (usually) doesn't have control of all the deployments.
+The built-in `squashmigrations` command, needs to be correct in all cases. It needs to produce new migrations that can work even if they are deployed to systems where not all migrations are applied yet. This is especially needed for pluggable Django apps, where the developer of the app (usually) doesn't have control of all the deployments.
 
 This package does not attempt to cater for this use case and does NOT try to be correct in the replacements it sets. The only guarantees are that:
 
