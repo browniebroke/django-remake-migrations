@@ -42,10 +42,7 @@ A Django admin command to recreate all migrations in a project. Like a `squashmi
 
 ## The problem
 
-The built-in `squashmigrations` command is great, but it has some limitations:
-
-- **It only works on a single app at a time**, which means that you need to run it for each app in your project. On a project with enough cross-apps dependencies, it quickly becomes impossible to run.
-- **It doesn't optimise the operations**, it only reduces the number of migration files. That being said, Django 4.1 introduced a new [`optimizemigrations` command](https://docs.djangoproject.com/en/stable/ref/django-admin/#optimizemigration) which sounds like it might be doing just this.
+The built-in `squashmigrations` command is great, but it only work on a single app at a time, which means that you need to run it for each app in your project. On a project with enough cross-apps dependencies, it can be tricky to run.
 
 This command aims at solving this problem, by recreating all the migration files in the whole project, from scratch, and mark them as applied by using the `replaces` attribute.
 
@@ -70,6 +67,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://browniebroke.com/"><img src="https://avatars.githubusercontent.com/u/861044?v=4?s=80" width="80px;" alt="Bruno Alla"/><br /><sub><b>Bruno Alla</b></sub></a><br /><a href="https://github.com/browniebroke/django-remake-migrations/commits?author=browniebroke" title="Code">💻</a> <a href="#ideas-browniebroke" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/browniebroke/django-remake-migrations/commits?author=browniebroke" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/DmytroLitvinov"><img src="https://avatars.githubusercontent.com/u/16066485?v=4?s=80" width="80px;" alt="Dmytro Litvinov"/><br /><sub><b>Dmytro Litvinov</b></sub></a><br /><a href="https://github.com/browniebroke/django-remake-migrations/commits?author=DmytroLitvinov" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://mikulaspoul.cz"><img src="https://avatars.githubusercontent.com/u/5583319?v=4?s=80" width="80px;" alt="Mikuláš Poul"/><br /><sub><b>Mikuláš Poul</b></sub></a><br /><a href="https://github.com/browniebroke/django-remake-migrations/commits?author=mikicz" title="Code">💻</a> <a href="#ideas-mikicz" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://adamj.eu/"><img src="https://avatars.githubusercontent.com/u/857609?v=4?s=80" width="80px;" alt="Adam Johnson"/><br /><sub><b>Adam Johnson</b></sub></a><br /><a href="https://github.com/browniebroke/django-remake-migrations/issues?q=author%3Aadamchainz" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>

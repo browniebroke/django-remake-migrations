@@ -39,6 +39,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "adamchainz",
+      "name": "Adam Johnson",
+      "avatar_url": "https://avatars.githubusercontent.com/u/857609?v=4",
+      "profile": "https://adamj.eu/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
