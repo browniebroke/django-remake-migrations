@@ -17,8 +17,7 @@ This results in an entirely new migration graph, completely free of the history 
 This is quite different from how `squashmigrations` works:
 
 1. AFAIK, `squashmigrations` works on a single app at a time, while `remakemigrations` works on the whole project, thus simplifying the migration graph at the project level.
-2. The number of operations is optimised to the minimum amount (see later).
-3. `remakemigrations` does not try to be correct when calculating replacements.
+2. `remakemigrations` does not try to be correct when calculating replacements.
 
 ### Migration graph
 
@@ -30,7 +29,7 @@ The built-in `squashmigrations` creates a new migration file containing all the 
 
 ### Correctness
 
-The built-in `squashmigrations` command, needs to be correct in all cases. It needs to produce new migrations that can work even if they are deployed to systems where not all migrations are applied yet. This is especially needed for pluggable Django apps, where the developer of the app (usually) doesn't have control of all the deployments.
+The built-in `squashmigrations` command needs to be correct in all cases. It needs to produce new migrations that can work even if they are deployed to systems where not all migrations are applied yet. This is especially needed for pluggable Django apps, where the developer of the app (usually) doesn't have control of all the deployments.
 
 This package does not attempt to cater for this use case and does NOT try to be correct in the replacements it sets. The only guarantees are that:
 
