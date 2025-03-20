@@ -86,6 +86,19 @@ class AppSettings:
         }
     """
 
+    REMAKE_MIGRATIONS_RUN_BEFORE: dict[str, list[tuple[str, str]]] = field(
+        default_factory=lambda: defaultdict(list)
+    )
+    """
+    Add run_before to the first migration in an app.
+
+    .. code-block:: python
+
+        REMAKE_MIGRATIONS_RUN_BEFORE = {
+            "app1": [("oauth2_provider", "0001_initial")],
+        }
+    """
+
     def __getattribute__(self, __name: str) -> Any:
         """
         Check if a Django project settings should override the app default.

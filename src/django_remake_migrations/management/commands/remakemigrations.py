@@ -18,6 +18,21 @@ from django.utils.module_loading import import_string
 from django_remake_migrations.conf import app_settings
 
 
+class CustomMigrationWriter(MigrationWriter):
+    """Custom MigrationWriter which adds support for run_before."""
+
+    def as_string(self) -> str:
+        """Add run_before if available."""
+        text = super().as_string()
+        if self.migration.run_before:
+            run_before_string = f"run_before = {self.migration.run_before}"
+            text = text.replace(
+                "class Migration(migrations.Migration):",
+                f"class Migration(migrations.Migration):\n    {run_before_string}",
+            )
+        return text
+
+
 class Command(BaseCommand):
     """
     Command to recreate all migrations from scratch.
@@ -226,6 +241,15 @@ class Command(BaseCommand):
                         ]
                         migration_obj.replaces = [replaced_migration]
 
+                if (
+                    app_settings.REMAKE_MIGRATIONS_RUN_BEFORE
+                    and index == 0
+                    and app_label in app_settings.REMAKE_MIGRATIONS_RUN_BEFORE
+                ):
+                    migration_obj.run_before = (
+                        app_settings.REMAKE_MIGRATIONS_RUN_BEFORE[app_label]
+                    )
+
                 migration_obj.initial = True
                 # Rewrite back to the disk
                 self.write_to_disk(migration_obj)
@@ -259,7 +283,7 @@ class Command(BaseCommand):
     @staticmethod
     def write_to_disk(migration_obj: Migration) -> None:
         """Write the migration object to the disk."""
-        writer = MigrationWriter(migration_obj)
+        writer = CustomMigrationWriter(migration_obj)
         with open(writer.path, "w", encoding="utf-8") as fh:
             fh.write(writer.as_string())
 
