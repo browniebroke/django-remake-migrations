@@ -68,6 +68,37 @@ class AppSettings:
         }
     """
 
+    REMAKE_MIGRATIONS_REPLACES_ALL: bool = False
+    """Make all new migrations in an app replace all old migrations from the app."""
+
+    REMAKE_MIGRATIONS_REPLACE_OTHER_APP: dict[str, list[str]] = field(
+        default_factory=lambda: defaultdict(list)
+    )
+    """
+    When setting replaces on a migration, include all migrations from other apps.
+
+    Requires REMAKE_MIGRATIONS_REPLACES_ALL to set to True.
+
+    .. code-block:: python
+
+        REMAKE_MIGRATIONS_REPLACE_OTHER_APP = {
+            "app1": ["app2"],
+        }
+    """
+
+    REMAKE_MIGRATIONS_RUN_BEFORE: dict[str, list[tuple[str, str]]] = field(
+        default_factory=lambda: defaultdict(list)
+    )
+    """
+    Add run_before to the first migration in an app.
+
+    .. code-block:: python
+
+        REMAKE_MIGRATIONS_RUN_BEFORE = {
+            "app1": [("oauth2_provider", "0001_initial")],
+        }
+    """
+
     def __getattribute__(self, __name: str) -> Any:
         """
         Check if a Django project settings should override the app default.
