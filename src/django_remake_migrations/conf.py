@@ -101,8 +101,7 @@ class AppSettings:
     )
     """
     Add ``run_before`` to the first migration of the specified apps.
-
-    Read more about ``run_before`` in the `Django docs <https://docs.djangoproject.com/en/dev/howto/writing-migrations/#controlling-the-order-of-migrations>`_:
+    Read more about ``run_before`` in the `Django docs <https://docs.djangoproject.com/en/dev/howto/writing-migrations/#controlling-the-order-of-migrations>`_.
 
     .. code-block:: python
 
