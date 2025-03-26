@@ -69,13 +69,23 @@ class AppSettings:
     """
 
     REMAKE_MIGRATIONS_REPLACES_ALL: bool = False
-    """Make all new migrations in an app replace all old migrations from the app."""
+    """
+    Make all new migrations in an app replace all old migrations from the app.
+
+    The default behaviour is that each old migration is set in ``replaces``
+    exactly once, which works well if there's fewer remade migrations then
+    the old ones. If that's not the case (remade migrations actually create
+    more migrations than were there before), the output is incorrect.
+    Setting this option to True fixes the issue.
+    """
 
     REMAKE_MIGRATIONS_REPLACE_OTHER_APP: dict[str, list[str]] = field(
         default_factory=lambda: defaultdict(list)
     )
     """
-    When setting replaces on a migration, include all migrations from other apps.
+    Mark remade migrations from an app as replacing all migrations from another app.
+
+    Can be used to fix cyclic dependency errors on remade migrations.
 
     Requires REMAKE_MIGRATIONS_REPLACES_ALL to set to True.
 
@@ -90,7 +100,10 @@ class AppSettings:
         default_factory=lambda: defaultdict(list)
     )
     """
-    Add run_before to the first migration in an app.
+    Add ``run_before`` to the first migration of the specified apps.
+
+    Read more about ``run_before`` in the Django docs:
+    https://docs.djangoproject.com/en/dev/howto/writing-migrations/#controlling-the-order-of-migrations
 
     .. code-block:: python
 
