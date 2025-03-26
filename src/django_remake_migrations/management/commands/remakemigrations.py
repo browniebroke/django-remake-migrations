@@ -19,7 +19,15 @@ from django_remake_migrations.conf import app_settings
 
 
 class CustomMigrationWriter(MigrationWriter):
-    """Custom MigrationWriter which adds support for run_before."""
+    """
+    Custom MigrationWriter which adds support for ``run_before``.
+
+    There's a ticket and a PR in Django itself to add support for this.
+    If that's merged in and released, we can remove this subclass when
+    new versions of Django are installed.
+    - https://code.djangoproject.com/ticket/36274
+    - https://github.com/django/django/pull/19303.
+    """
 
     def as_string(self) -> str:
         """Add run_before if available."""
