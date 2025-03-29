@@ -18,6 +18,29 @@ from django.utils.module_loading import import_string
 from django_remake_migrations.conf import app_settings
 
 
+class CustomMigrationWriter(MigrationWriter):
+    """
+    Custom MigrationWriter which adds support for ``run_before``.
+
+    There's a ticket and a PR in Django itself to add support for this.
+    If that's merged in and released, we can remove this subclass when
+    new versions of Django are installed.
+    - https://code.djangoproject.com/ticket/36274
+    - https://github.com/django/django/pull/19303.
+    """
+
+    def as_string(self) -> str:
+        """Add run_before if available."""
+        text = super().as_string()
+        if self.migration.run_before:
+            run_before_string = f"run_before = {self.migration.run_before}"
+            text = text.replace(
+                "class Migration(migrations.Migration):",
+                f"class Migration(migrations.Migration):\n    {run_before_string}",
+            )
+        return text
+
+
 class Command(BaseCommand):
     """
     Command to recreate all migrations from scratch.
@@ -184,27 +207,56 @@ class Command(BaseCommand):
             new_migrations_count = len(new_migrations_list)
             old_migrations_list = sorted_old_migrations[app_label]
             old_migrations_count = len(old_migrations_list)
+
             # We should have more migrations before
-            if old_migrations_count < new_migrations_count:
+            if (
+                old_migrations_count < new_migrations_count
+                and not app_settings.REMAKE_MIGRATIONS_REPLACES_ALL
+            ):
                 self.log_error(
                     f"App {app_label} has more migrations than before... "
                     "Replaces might be wrong!"
                 )
+
             # Calculate how many migrations will be replaced by the first one
             first_replaces_count = old_migrations_count - new_migrations_count + 1
             # Rewrite migrations with: new name, updated dependencies & replaces
             for index, migration_key in enumerate(new_migrations_list):
                 migration_obj = loader.disk_migrations[migration_key]
-                if index == 0:
-                    # The first migration will replace the N first ones
-                    migration_obj.replaces = old_migrations_list[:first_replaces_count]
-                    self.add_needed_database_extensions(migration_obj)
+
+                if app_settings.REMAKE_MIGRATIONS_REPLACES_ALL:
+                    replaces_list = set(old_migrations_list)
+                    for (
+                        other_app
+                    ) in app_settings.REMAKE_MIGRATIONS_REPLACE_OTHER_APP.get(
+                        app_label, []
+                    ):
+                        replaces_list.update(sorted_old_migrations[other_app])
+                    migration_obj.replaces = sorted(replaces_list)
+                    if index == 0:
+                        self.add_needed_database_extensions(migration_obj)
                 else:
-                    # Otherwise, we replace a single migration
-                    replaced_migration = old_migrations_list[
-                        first_replaces_count + index - 1
-                    ]
-                    migration_obj.replaces = [replaced_migration]
+                    if index == 0:
+                        # The first migration will replace the N first ones
+                        migration_obj.replaces = old_migrations_list[
+                            :first_replaces_count
+                        ]
+                        self.add_needed_database_extensions(migration_obj)
+                    else:
+                        # Otherwise, we replace a single migration
+                        replaced_migration = old_migrations_list[
+                            first_replaces_count + index - 1
+                        ]
+                        migration_obj.replaces = [replaced_migration]
+
+                if (
+                    app_settings.REMAKE_MIGRATIONS_RUN_BEFORE
+                    and index == 0
+                    and app_label in app_settings.REMAKE_MIGRATIONS_RUN_BEFORE
+                ):
+                    migration_obj.run_before = (
+                        app_settings.REMAKE_MIGRATIONS_RUN_BEFORE[app_label]
+                    )
 
                 migration_obj.initial = True
                 # Rewrite back to the disk
@@ -239,7 +291,7 @@ class Command(BaseCommand):
     @staticmethod
     def write_to_disk(migration_obj: Migration) -> None:
         """Write the migration object to the disk."""
-        writer = MigrationWriter(migration_obj)
+        writer = CustomMigrationWriter(migration_obj)
         with open(writer.path, "w", encoding="utf-8") as fh:
             fh.write(writer.as_string())
 
