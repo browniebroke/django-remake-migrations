@@ -5,6 +5,10 @@
 ### Features
 
 - Enable more complex migrations replacements (#434) ([`756bd1d`](https://github.com/browniebroke/django-remake-migrations/commit/756bd1d5b5bf496a897fc44c443d0511c55dc5dd))
+  - Allow remade migrations to replace all migrations in an app
+  - Allow remade migrations to replace multiple apps
+  - Add support for settings `run_before` on remade migrations
+
 
 ### Documentation
 
