@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.7.0 (2025-03-29)
+
+### Features
+
+- Enable more complex migrations replacements (#434) ([`756bd1d`](https://github.com/browniebroke/django-remake-migrations/commit/756bd1d5b5bf496a897fc44c443d0511c55dc5dd))
+
+### Documentation
+
+- Fix wrong claim about optimizations of operations (#424) ([`c0bce07`](https://github.com/browniebroke/django-remake-migrations/commit/c0bce075714c386788fd28f8c52339e046d4f99e))
+- Add mikicz as a contributor for code, and ideas (#422) ([`4b15148`](https://github.com/browniebroke/django-remake-migrations/commit/4b15148320129734d4d40a7ebfa06f0dd023d544))
+
 ## v2.6.0 (2025-03-07)
 
 ### Features
