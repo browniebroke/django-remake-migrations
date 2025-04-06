@@ -37,3 +37,7 @@ This package does not attempt to cater for this use case and does NOT try to be 
 - any remade migration replaces at least one of the old migrations.
 
 As long as all the environments are fully migrated when you deploy the remade migrations, it shouldn't be a problem.
+
+### Data migrations
+
+[Data migrations](https://docs.djangoproject.com/en/stable/topics/migrations/#data-migrations) are NOT in scope of this package and will be lost in the process of remaking migrations. The built-in `squashmigrations` tries to preserve them, but this package doesn't.
