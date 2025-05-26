@@ -75,15 +75,15 @@ jobs:
 
       # Do a dry run of PSR
       - name: Test release
-        uses: python-semantic-release/python-semantic-release@v9
+        uses: python-semantic-release/python-semantic-release@v10
         if: github.ref_name != 'main'
         with:
-          root_options: --noop
+          no_operation_mode: true
           github_token: noop
 
       # On main branch: actual PSR + upload to PyPI & GitHub
       - name: Release
-        uses: python-semantic-release/python-semantic-release@v9
+        uses: python-semantic-release/python-semantic-release@v10
         if: github.ref_name == 'main'
         id: release
         with:
