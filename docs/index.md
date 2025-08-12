@@ -1,5 +1,9 @@
 # Welcome to Django remake migrations documentation!
 
+```{include} ../README.md
+
+```
+
 ```{toctree}
 :caption: Installation & Usage
 :maxdepth: 2
@@ -16,8 +20,4 @@ technical-details
 
 changelog
 contributing
-```
-
-```{include} ../README.md
-
 ```
