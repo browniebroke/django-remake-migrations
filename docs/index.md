@@ -1,5 +1,3 @@
-# Welcome to Django remake migrations documentation!
-
 ```{include} ../README.md
 
 ```
