@@ -1,13 +1,13 @@
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = [ "setuptools" ]
+requires = [ "setuptools>=77.0.3" ]
 
 [project]
 name = "django-remake-migrations"
 version = "2.7.0"
 description = "A Django admin command to recreate all migrations in a project."
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
 authors = [
   { name = "Bruno Alla", email = "oss@browniebroke.com" },
 ]
