@@ -1,31 +1,44 @@
 # Changelog
 
+## v2.7.1 (2025-08-25)
+
+### Bug fixes
+
+- Use spdx expression for license ([`6eaa6a5`](https://github.com/browniebroke/django-remake-migrations/commit/6eaa6a54c9b54c40e2f5741835d1a1572c5da45f))
+
+### Documentation
+
+- Remove duplicated h1 header ([`ecf560f`](https://github.com/browniebroke/django-remake-migrations/commit/ecf560f4ba7507b5375ab14fc351db5643668aab))
+- Move toc to the bottom of index page ([`0191812`](https://github.com/browniebroke/django-remake-migrations/commit/01918125d256e61a4fbfe40db707cc1edeff32b5))
+- Clarify that data migrations are lost ([`8826515`](https://github.com/browniebroke/django-remake-migrations/commit/88265151e84ea90e3297bf8f21a33b3a5f3acfa8))
+
 ## v2.7.0 (2025-03-29)
 
 ### Features
 
-- Enable more complex migrations replacements (#434) ([`756bd1d`](https://github.com/browniebroke/django-remake-migrations/commit/756bd1d5b5bf496a897fc44c443d0511c55dc5dd))
-  - Allow remade migrations to replace all migrations in an app
-  - Allow remade migrations to replace multiple apps
-  - Add support for settings `run_before` on remade migrations
-
+- Enable more complex migrations replacements ([`756bd1d`](https://github.com/browniebroke/django-remake-migrations/commit/756bd1d5b5bf496a897fc44c443d0511c55dc5dd))
+- Allow all migrations replacing all migrations in an app ([`756bd1d`](https://github.com/browniebroke/django-remake-migrations/commit/756bd1d5b5bf496a897fc44c443d0511c55dc5dd))
+- Allow replacing multiple apps ([`756bd1d`](https://github.com/browniebroke/django-remake-migrations/commit/756bd1d5b5bf496a897fc44c443d0511c55dc5dd))
+- Add support for run_before ([`756bd1d`](https://github.com/browniebroke/django-remake-migrations/commit/756bd1d5b5bf496a897fc44c443d0511c55dc5dd))
 
 ### Documentation
 
-- Fix wrong claim about optimizations of operations (#424) ([`c0bce07`](https://github.com/browniebroke/django-remake-migrations/commit/c0bce075714c386788fd28f8c52339e046d4f99e))
-- Add mikicz as a contributor for code, and ideas (#422) ([`4b15148`](https://github.com/browniebroke/django-remake-migrations/commit/4b15148320129734d4d40a7ebfa06f0dd023d544))
+- Tweaks docstrings to attempt improving the docs ([`756bd1d`](https://github.com/browniebroke/django-remake-migrations/commit/756bd1d5b5bf496a897fc44c443d0511c55dc5dd))
+- More docs tweaks ([`756bd1d`](https://github.com/browniebroke/django-remake-migrations/commit/756bd1d5b5bf496a897fc44c443d0511c55dc5dd))
+- Fix wrong claim about optimizations of operations ([`c0bce07`](https://github.com/browniebroke/django-remake-migrations/commit/c0bce075714c386788fd28f8c52339e046d4f99e))
+- Add mikicz as a contributor for code, and ideas ([`4b15148`](https://github.com/browniebroke/django-remake-migrations/commit/4b15148320129734d4d40a7ebfa06f0dd023d544))
 
 ## v2.6.0 (2025-03-07)
 
 ### Features
 
-- Add new command option to keep old migrations around (#419) ([`bc4b645`](https://github.com/browniebroke/django-remake-migrations/commit/bc4b645538d07334e7195cae4d6e4e7a0ef397cd))
+- Add new command option to keep old migrations around ([`bc4b645`](https://github.com/browniebroke/django-remake-migrations/commit/bc4b645538d07334e7195cae4d6e4e7a0ef397cd))
 
 ## v2.5.0 (2025-02-18)
 
 ### Features
 
-- Add django 5.2 support (#406) ([`2b9edce`](https://github.com/browniebroke/django-remake-migrations/commit/2b9edce796bd802c19389055796be3f86537d0cf))
+- Add django 5.2 support ([`2b9edce`](https://github.com/browniebroke/django-remake-migrations/commit/2b9edce796bd802c19389055796be3f86537d0cf))
 
 ### Testing
 
@@ -35,7 +48,7 @@
 
 ### Features
 
-- Migrate packaging to uv (#350) ([`c9eacf7`](https://github.com/browniebroke/django-remake-migrations/commit/c9eacf7ca91f17b6532056aecf036c7ca1010e75))
+- Migrate packaging to uv ([`c9eacf7`](https://github.com/browniebroke/django-remake-migrations/commit/c9eacf7ca91f17b6532056aecf036c7ca1010e75))
 
 ### Testing
 
@@ -45,29 +58,29 @@
 
 ### Documentation
 
-- Improve the documentation page for settings (#330) ([`fd8ae1a`](https://github.com/browniebroke/django-remake-migrations/commit/fd8ae1a4bbf0173ca0f8ec0adf6f7d7faa159cba))
+- Improve the documentation page for settings ([`fd8ae1a`](https://github.com/browniebroke/django-remake-migrations/commit/fd8ae1a4bbf0173ca0f8ec0adf6f7d7faa159cba))
 
 ### Features
 
-- Add ability to specify database extensions (#329) ([`706fe3a`](https://github.com/browniebroke/django-remake-migrations/commit/706fe3aa72950de6f0ed975534b078ec1cef2010))
+- Add ability to specify database extensions ([`706fe3a`](https://github.com/browniebroke/django-remake-migrations/commit/706fe3aa72950de6f0ed975534b078ec1cef2010))
 
 ## v2.2.0 (2024-10-31)
 
 ### Features
 
-- Drop support for python 3.8 (#308) ([`70302ee`](https://github.com/browniebroke/django-remake-migrations/commit/70302eeed10469a08011fbe279789d1da5c73fbd))
+- Drop support for python 3.8 ([`70302ee`](https://github.com/browniebroke/django-remake-migrations/commit/70302eeed10469a08011fbe279789d1da5c73fbd))
 
 ## v2.1.0 (2024-08-06)
 
 ### Features
 
-- Add django 5.1 support (#245) ([`1782456`](https://github.com/browniebroke/django-remake-migrations/commit/1782456d0ca98c26acc3100b47c35b1910d6db04))
+- Add django 5.1 support ([`1782456`](https://github.com/browniebroke/django-remake-migrations/commit/1782456d0ca98c26acc3100b47c35b1910d6db04))
 
 ## v2.0.0 (2024-06-24)
 
 ### Features
 
-- Drop django < 4.2 support (#208) ([`bc04435`](https://github.com/browniebroke/django-remake-migrations/commit/bc0443552f1115cc14efa8a7260d5ad753b2d426))
+- Drop django < 4.2 support ([`bc04435`](https://github.com/browniebroke/django-remake-migrations/commit/bc0443552f1115cc14efa8a7260d5ad753b2d426))
 
 ## v1.1.3 (2024-05-06)
 
@@ -81,9 +94,16 @@
 
 - Update dependency django to v4.2.11 ([`c2abf8a`](https://github.com/browniebroke/django-remake-migrations/commit/c2abf8a78a319ca1d83b2e435c490eb764ca650d))
 
+### Documentation
+
+- Build docs on python 3.12 ([`394e5c1`](https://github.com/browniebroke/django-remake-migrations/commit/394e5c11da7848122649207e5fc6296423d983c8))
+
 ### Testing
 
-- Reorganise test apps to enable adding more cases (#103) ([`c4fc2ee`](https://github.com/browniebroke/django-remake-migrations/commit/c4fc2ee86a7819fbb1ef92b6a6439f8a5658ce06))
+- Reorganise test apps to enable adding more cases ([`c4fc2ee`](https://github.com/browniebroke/django-remake-migrations/commit/c4fc2ee86a7819fbb1ef92b6a6439f8a5658ce06))
+- Refactor test case before adding more ([`c4fc2ee`](https://github.com/browniebroke/django-remake-migrations/commit/c4fc2ee86a7819fbb1ef92b6a6439f8a5658ce06))
+- Refactor test fixture ([`c4fc2ee`](https://github.com/browniebroke/django-remake-migrations/commit/c4fc2ee86a7819fbb1ef92b6a6439f8a5658ce06))
+- Extract context manager to setup apps for testing ([`c4fc2ee`](https://github.com/browniebroke/django-remake-migrations/commit/c4fc2ee86a7819fbb1ef92b6a6439f8a5658ce06))
 
 ## v1.1.1 (2024-02-06)
 
@@ -95,13 +115,13 @@
 
 ### Features
 
-- Add settings to run some apps first and last (#81) ([`81e18c4`](https://github.com/browniebroke/django-remake-migrations/commit/81e18c42fc8432fbba2aeb07f5ef8052267aedef))
-- Add setting to run other admin commands at the end (#79) ([`1f87053`](https://github.com/browniebroke/django-remake-migrations/commit/1f87053feafaaba326b132ae766d4f16f9317165))
-- Improve logging of `remakemigrations` command (#78) ([`0688b8b`](https://github.com/browniebroke/django-remake-migrations/commit/0688b8b13a00288db493bd6ee173a7d207bce7bc))
+- Add settings to run some apps first and last ([`81e18c4`](https://github.com/browniebroke/django-remake-migrations/commit/81e18c42fc8432fbba2aeb07f5ef8052267aedef))
+- Add setting to run other admin commands at the end ([`1f87053`](https://github.com/browniebroke/django-remake-migrations/commit/1f87053feafaaba326b132ae766d4f16f9317165))
+- Improve logging of `remakemigrations` command ([`0688b8b`](https://github.com/browniebroke/django-remake-migrations/commit/0688b8b13a00288db493bd6ee173a7d207bce7bc))
 
 ### Bug fixes
 
-- Simplify migration name generation (#80) ([`40a8b00`](https://github.com/browniebroke/django-remake-migrations/commit/40a8b00a5df1883cf328f2b7c3eaac454a55ad50))
+- Simplify migration name generation ([`40a8b00`](https://github.com/browniebroke/django-remake-migrations/commit/40a8b00a5df1883cf328f2b7c3eaac454a55ad50))
 
 ## v1.0.0 (2023-11-15)
 
@@ -113,21 +133,21 @@
 
 ### Documentation
 
-- Add dmytrolitvinov as a contributor for doc (#34) ([`03d4a0e`](https://github.com/browniebroke/django-remake-migrations/commit/03d4a0e286905ac8ff6be4dcab8363207a85032e))
+- Add dmytrolitvinov as a contributor for doc ([`03d4a0e`](https://github.com/browniebroke/django-remake-migrations/commit/03d4a0e286905ac8ff6be4dcab8363207a85032e))
 
 ### Bug fixes
 
-- Typo in an url mentioned in the readme.md (#33) ([`58c3f5b`](https://github.com/browniebroke/django-remake-migrations/commit/58c3f5b8fbb5a8d3eb91768f7d97c4c8b06aa24e))
+- Typo in an url mentioned in the readme.md ([`58c3f5b`](https://github.com/browniebroke/django-remake-migrations/commit/58c3f5b8fbb5a8d3eb91768f7d97c4c8b06aa24e))
 
 ## v0.3.1 (2023-11-01)
 
 ### Bug fixes
 
-- Update dependency django to v4.2.7 (#31) ([`c330296`](https://github.com/browniebroke/django-remake-migrations/commit/c3302963a8bdcd948fdbc53c24929b0719e16e26))
+- Update dependency django to v4.2.7 ([`c330296`](https://github.com/browniebroke/django-remake-migrations/commit/c3302963a8bdcd948fdbc53c24929b0719e16e26))
 
 ### Documentation
 
-- Write the initial version of the docs (#21) ([`d3ac7c8`](https://github.com/browniebroke/django-remake-migrations/commit/d3ac7c82f66f7466f106e39ae0c6ac23b1f34a5a))
+- Write the initial version of the docs ([`d3ac7c8`](https://github.com/browniebroke/django-remake-migrations/commit/d3ac7c82f66f7466f106e39ae0c6ac23b1f34a5a))
 
 ## v0.3.0 (2023-10-17)
 

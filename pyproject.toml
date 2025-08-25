@@ -4,7 +4,7 @@ requires = [ "setuptools>=77.0.3" ]
 
 [project]
 name = "django-remake-migrations"
-version = "2.7.0"
+version = "2.7.1"
 description = "A Django admin command to recreate all migrations in a project."
 readme = "README.md"
 license = "MIT"
