@@ -31,6 +31,7 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+          - "3.14"
         os:
           - ubuntu-24.04
           - macOS-latest
@@ -40,6 +41,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
       - uses: astral-sh/setup-uv@v6
       - run: uv pip install --system tox tox-uv
         shell: bash
