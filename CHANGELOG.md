@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.8.0 (2025-09-18)
+
+### Features
+
+- Add support for python 3.14 ([`b5afaa7`](https://github.com/browniebroke/django-remake-migrations/commit/b5afaa732fe7086294acf9a8648c4c20db851f5d))
+- Drop support for python 3.9 ([`435b8b5`](https://github.com/browniebroke/django-remake-migrations/commit/435b8b5ef80c31355cc2a9b47f331f2b15822d05))
+
 ## v2.7.1 (2025-08-25)
 
 ### Bug fixes
