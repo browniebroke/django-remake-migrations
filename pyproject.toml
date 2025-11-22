@@ -43,7 +43,7 @@ urls.repository = "https://github.com/browniebroke/django-remake-migrations"
 dev = [
   "coverage",
   "psycopg[binary]==3.2.13",
-  "pytest>=8,<9",
+  "pytest>=9,<10",
   "pytest-django>=4.5,<5",
 ]
 docs = [
