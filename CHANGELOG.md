@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.9.0 (2025-12-07)
+
+### Features
+
+- Add support for django 6.0 ([`913f83d`](https://github.com/browniebroke/django-remake-migrations/commit/913f83d32831d3485453b8d7628dd7d353a12c81))
+
 ## v2.8.0 (2025-09-18)
 
 ### Features
