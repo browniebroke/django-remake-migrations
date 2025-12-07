@@ -1,9 +1,4 @@
 {
   "extends": ["github>browniebroke/renovate-configs:python"],
-  "packageRules": [
-    {
-      "packageNames": ["django"],
-      "semanticCommitType": "chore"
-    }
-  ]
+  "ignoreDeps": ["django"]
 }
