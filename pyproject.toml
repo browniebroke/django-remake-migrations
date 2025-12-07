@@ -54,10 +54,10 @@ docs = [
   "sphinx-autobuild>=2025,<2026; python_version>='3.11'",
 ]
 django60 = [ "django>=6.0a1,<6.1; python_version>='3.12'" ]
-django52 = [ "django>=5.2a1,<6" ]
-django51 = [ "django>=5.1a1,<5.2" ]
-django50 = [ "django>=5.0a1,<5.1" ]
-django42 = [ "django>=4.2a1,<5" ]
+django52 = [ "django>=6,<7" ]
+django51 = [ "django>=6,<6.1" ]
+django50 = [ "django>=6,<6.1" ]
+django42 = [ "django>=6,<7" ]
 
 [tool.uv]
 conflicts = [
