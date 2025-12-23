@@ -151,11 +151,7 @@ class Command(BaseCommand):
                 continue
 
             # Check if this is a first-party app
-            try:
-                app_config = apps.get_app_config(app_label_iter)
-            except LookupError:
-                continue
-
+            app_config = apps.get_app_config(app_label_iter)
             if not self._is_first_party(app_config):
                 continue
 
@@ -164,20 +160,16 @@ class Command(BaseCommand):
                 continue
 
             # Get the file path
-            try:
-                app_migrations_module_name, _ = MigrationLoader.migrations_module(
-                    app_label_iter
-                )
-                migration_module = import_module(
-                    f"{app_migrations_module_name}.{migration_name}"
-                )
-                migration_file = Path(migration_module.__file__)  # type: ignore[arg-type]
-
-                remaked_migrations[app_label_iter].append(
-                    (app_label_iter, migration_name, migration_file)
-                )
-            except (ImportError, AttributeError):
-                continue
+            app_migrations_module_name, _ = MigrationLoader.migrations_module(
+                app_label_iter
+            )
+            migration_module = import_module(
+                f"{app_migrations_module_name}.{migration_name}"
+            )
+            migration_file = Path(migration_module.__file__)  # type: ignore[arg-type]
+            remaked_migrations[app_label_iter].append(
+                (app_label_iter, migration_name, migration_file)
+            )
 
         return dict(remaked_migrations)
 
