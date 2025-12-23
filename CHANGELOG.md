@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.10.0 (2025-12-23)
+
+### Features
+
+- Add command to delete remaked migrations ([`51c3ec2`](https://github.com/browniebroke/django-remake-migrations/commit/51c3ec2c971a5311be6934d1c06ac64bde45a962))
+
 ## v2.9.0 (2025-12-07)
 
 ### Features

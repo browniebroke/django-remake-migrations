@@ -406,7 +406,7 @@ wheels = [
 
 [[package]]
 name = "django-remake-migrations"
-version = "2.9.0"
+version = "2.10.0"
 source = { editable = "." }
 dependencies = [
     { name = "django", version = "4.2.27", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-24-django-remake-migrations-django42' or (extra == 'group-24-django-remake-migrations-django50' and extra == 'group-24-django-remake-migrations-django51') or (extra == 'group-24-django-remake-migrations-django50' and extra == 'group-24-django-remake-migrations-django52') or (extra == 'group-24-django-remake-migrations-django50' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django51' and extra == 'group-24-django-remake-migrations-django52') or (extra == 'group-24-django-remake-migrations-django51' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60')" },
