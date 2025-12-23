@@ -65,19 +65,12 @@ class Command(BaseCommand):
             self.log_info("No remaked migrations found.")
             return
 
-        # Count total migrations
-        total_count = sum(len(migrations) for migrations in remaked_migrations.values())
-
         # Display what will be done
+        total_count = sum(len(migrations) for migrations in remaked_migrations.values())
         self.stdout.write(
-            self.style.WARNING(
-                f"Found {total_count} remaked migration(s) in "
-                f"{len(remaked_migrations)} app(s):"
-            )
+            f"Found {total_count} remaked migration(s) in "
+            f"{len(remaked_migrations)} app(s)"
         )
-        for app, migrations in sorted(remaked_migrations.items()):
-            for _, migration_name, _file_path in migrations:
-                self.stdout.write(f"  - {app}.{migration_name}")
 
         if dry_run:
             self.log_info("\nDry run - no files will be modified.\n")

@@ -112,8 +112,8 @@ class TestDeleteRemakedMigrations(TestCase):
         out, err, returncode = run_command("delete_remaked_migrations")
 
         assert returncode == 0
+        assert "Found 2 remaked migration(s) in 2 app(s)" in out
         assert "Successfully processed 2 migration(s)" in out
-        assert "Found 2 remaked migration(s) in 2 app(s):" in out
         assert err == ""
 
         # Both files should be modified
@@ -157,8 +157,8 @@ class TestDeleteRemakedMigrations(TestCase):
         )
 
         assert returncode == 0
+        assert "Found 1 remaked migration(s) in 1 app(s)" in out
         assert "Successfully processed 1 migration(s)" in out
-        assert "Found 1 remaked migration(s) in 1 app(s):" in out
         assert err == ""
 
         # Only app1 should be modified
@@ -249,8 +249,8 @@ class TestDeleteRemakedMigrations(TestCase):
 
         assert returncode == 0
         # Both migrations should be processed
+        assert "Found 2 remaked migration(s) in 1 app(s)" in out
         assert "Successfully processed 2 migration(s)" in out
-        assert "Found 2 remaked migration(s) in 1 app(s):" in out
         assert err == ""
 
         # Both files should be modified
