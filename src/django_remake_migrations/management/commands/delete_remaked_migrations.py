@@ -84,37 +84,23 @@ class Command(BaseCommand):
 
         # Process each migration
         success_count = 0
-        error_count = 0
 
         for app, migrations in sorted(remaked_migrations.items()):
             for _, migration_name, file_path in migrations:
-                try:
-                    if self.remove_replaces_from_file(file_path, dry_run):
-                        if dry_run:
-                            self.stdout.write(
-                                f"Would remove replaces from: {app}.{migration_name}"
-                            )
-                        else:
-                            self.log_info(
-                                f"Removed replaces from: {app}.{migration_name}"
-                            )
-                        success_count += 1
-                    else:
+                if self.remove_replaces_from_file(file_path, dry_run):
+                    if dry_run:
                         self.stdout.write(
-                            self.style.WARNING(
-                                "No replaces attribute found in: "
-                                f"{app}.{migration_name}"
-                            )
+                            f"Would remove replaces from: {app}.{migration_name}"
                         )
-                except PermissionError:
-                    self.log_error(
-                        f"Permission denied: {app}.{migration_name} - "
-                        "Check file permissions"
+                    else:
+                        self.log_info(f"Removed replaces from: {app}.{migration_name}")
+                    success_count += 1
+                else:
+                    self.stdout.write(
+                        self.style.WARNING(
+                            f"No replaces attribute found in: {app}.{migration_name}"
+                        )
                     )
-                    error_count += 1
-                except Exception as e:
-                    self.log_error(f"Error processing {app}.{migration_name}: {e}")
-                    error_count += 1
 
         # Final summary
         self.stdout.write("")
@@ -124,9 +110,6 @@ class Command(BaseCommand):
             )
         else:
             self.log_info(f"Successfully processed {success_count} migration(s).")
-
-        if error_count:
-            self.log_error(f"Failed to process {error_count} migration(s).")
 
     def find_remaked_migrations(
         self, app_label: str | None = None
@@ -228,7 +211,3 @@ class Command(BaseCommand):
     def log_info(self, message: str) -> None:
         """Wrapper to help logging successes."""
         self.stdout.write(self.style.SUCCESS(message))
-
-    def log_error(self, message: str) -> None:
-        """Wrapper to help logging errors."""
-        self.stderr.write(self.style.ERROR(message))
