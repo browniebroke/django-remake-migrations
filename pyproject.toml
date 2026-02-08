@@ -53,11 +53,10 @@ docs = [
   "sphinx>=4; python_version>='3.11'",
   "sphinx-autobuild>=2025,<2026; python_version>='3.11'",
 ]
-django60 = [ "django>=6.0a1,<6.1; python_version>='3.12'" ]
-django52 = [ "django>=5.2a1,<6" ]
+django42 = [ "django>=4.2a1,<5" ]django50 = [ "django>=5.0a1,<5.1" ]
 django51 = [ "django>=5.1a1,<5.2" ]
-django50 = [ "django>=5.0a1,<5.1" ]
-django42 = [ "django>=4.2a1,<5" ]
+django52 = [ "django>=5.2a1,<6" ]
+django60 = [ "django>=6.0a1,<6.1; python_version>='3.12'" ]
 
 [tool.uv]
 conflicts = [
@@ -110,33 +109,34 @@ lint.isort.known-first-party = [ "django_remake_migrations", "tests" ]
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
-[tool.pytest.ini_options]
-addopts = """\
+[tool.pytest]
+
+ini_options.addopts = """\
     -v
     -Wdefault
     --ds=tests.settings
     """
-pythonpath = [ "src" ]
 
-[tool.coverage.paths]
-source = [
+ini_options.pythonpath = [ "src" ]
+
+[tool.coverage]
+
+paths.source = [
   "src",
   ".tox/**/site-packages",
 ]
-
-[tool.coverage.report]
-exclude_lines = [
+report.exclude_lines = [
   "pragma: no cover",
   "@overload",
   "if TYPE_CHECKING",
   "raise NotImplementedError",
   'if __name__ == "__main__":',
 ]
+run.branch = true
 
-[tool.coverage.run]
-branch = true
-parallel = true
-source = [
+run.parallel = true
+
+run.source = [
   "django_remake_migrations",
 ]
 
@@ -151,17 +151,10 @@ show_error_codes = true
 warn_unreachable = true
 warn_unused_ignores = true
 exclude = [
-  'docs/.*',
-  'setup.py',
+  "docs/.*",
+  "setup.py",
 ]
-
-[[tool.mypy.overrides]]
-module = "tests.*"
-allow_untyped_defs = true
-
-[[tool.mypy.overrides]]
-module = "docs.*"
-ignore_errors = true
+overrides = [{ module = "tests.*", allow_untyped_defs = true }, { module = "docs.*", ignore_errors = true }]
 
 [tool.semantic_release]
 version_toml = [ "pyproject.toml:project.version" ]
@@ -176,18 +169,17 @@ git add uv.lock
 uv build
 """
 
-[tool.semantic_release.branches.main]
-match = "main"
+branches.main.match = "main"
 
-[tool.semantic_release.branches.noop]
-match = "(?!main$)"
-prerelease = true
-[tool.semantic_release.changelog]
-exclude_commit_patterns = [
+branches.noop.match = "(?!main$)"
+
+
+branches.noop.prerelease = true
+changelog.exclude_commit_patterns = [
   "chore.*",
   "ci.*",
   "Merge pull request .*",
 ]
 
-[tool.semantic_release.changelog.environment]
-keep_trailing_newline = true
+changelog.environment.keep_trailing_newline = true
+
