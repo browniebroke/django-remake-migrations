@@ -117,21 +117,21 @@ ini_options.addopts = """\
 ini_options.pythonpath = [ "src" ]
 
 [tool.coverage]
+run.branch = true
+run.parallel = true
+run.source = [
+  "django_remake_migrations",
+]
 paths.source = [
   "src",
   ".tox/**/site-packages",
 ]
 report.exclude_lines = [
-  "pragma: no cover",
   "@overload",
-  "if TYPE_CHECKING",
-  "raise NotImplementedError",
   'if __name__ == "__main__":',
-]
-run.branch = true
-run.parallel = true
-run.source = [
-  "django_remake_migrations",
+  "if TYPE_CHECKING",
+  "pragma: no cover",
+  "raise NotImplementedError",
 ]
 
 [tool.mypy]
