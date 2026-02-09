@@ -31,7 +31,6 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
   "Topic :: Software Development :: Libraries",
 ]
-
 dependencies = [
   "django>=4.2",
 ]
@@ -73,7 +72,6 @@ conflicts = [
 [tool.ruff]
 target-version = "py310"
 line-length = 88
-
 lint.select = [
   "B",   # flake8-bugbear
   "C4",  # flake8-comprehensions
@@ -111,17 +109,14 @@ lint.isort.known-first-party = [ "django_remake_migrations", "tests" ]
 max_supported_python = "3.14"
 
 [tool.pytest]
-
 ini_options.addopts = """\
     -v
     -Wdefault
     --ds=tests.settings
     """
-
 ini_options.pythonpath = [ "src" ]
 
 [tool.coverage]
-
 paths.source = [
   "src",
   ".tox/**/site-packages",
@@ -134,9 +129,7 @@ report.exclude_lines = [
   'if __name__ == "__main__":',
 ]
 run.branch = true
-
 run.parallel = true
-
 run.source = [
   "django_remake_migrations",
 ]
@@ -155,7 +148,7 @@ exclude = [
   "docs/.*",
   "setup.py",
 ]
-overrides = [{ module = "tests.*", allow_untyped_defs = true }, { module = "docs.*", ignore_errors = true }]
+overrides = [ { module = "tests.*", allow_untyped_defs = true }, { module = "docs.*", ignore_errors = true } ]
 
 [tool.semantic_release]
 version_toml = [ "pyproject.toml:project.version" ]
@@ -169,18 +162,12 @@ uv lock
 git add uv.lock
 uv build
 """
-
 branches.main.match = "main"
-
 branches.noop.match = "(?!main$)"
-
-
 branches.noop.prerelease = true
 changelog.exclude_commit_patterns = [
   "chore.*",
   "ci.*",
   "Merge pull request .*",
 ]
-
 changelog.environment.keep_trailing_newline = true
-
