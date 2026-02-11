@@ -11,6 +11,25 @@ from django.test import TestCase
 from tests.utils import run_command, setup_test_apps
 
 
+def create_old_migration(mig_dir: Path, name: str) -> Path:
+    """Helper to create an old migration file."""
+    filename = f"{name}.py"
+    file_path = mig_dir / filename
+    content = dedent("""\
+        from django.db import migrations
+
+
+        class Migration(migrations.Migration):
+            initial = True
+
+            dependencies = []
+
+            operations = []
+    """)
+    file_path.write_text(content)
+    return file_path
+
+
 def create_remaked_migration(
     mig_dir: Path,
     name: str,
@@ -285,3 +304,82 @@ class TestDeleteRemakedMigrations(TestCase):
         # Only remaked migration should be modified
         assert "replaces" not in remaked_mig.read_text()
         assert "replaces" in regular_mig.read_text()  # Regular migration untouched
+
+    def test_remove_replaced(self):
+        """Test removing replaces with deleting replacede migrations."""
+        app1_mig_dir = self.app_mig_dirs["app1"]
+        (app1_mig_dir / "__init__.py").touch()
+
+        mig_file = create_remaked_migration(app1_mig_dir, "0001", has_replaces=True)
+        old_file_01 = create_old_migration(app1_mig_dir, "0001_old")
+        old_file_02 = create_old_migration(app1_mig_dir, "0002_old")
+
+        out, err, returncode = run_command(
+            "delete_remaked_migrations", remove_replaced=True
+        )
+
+        assert returncode == 0
+        assert "Successfully processed 1 migration(s) and deleted 2 migration(s)" in out
+        assert err == ""
+
+        # Verify replaces was removed
+        content = mig_file.read_text()
+        assert "replaces" not in content
+        assert "initial = True" in content  # Should still be present
+        assert "operations = [\n    ]" in content  # Other content intact
+        assert "class Migration(migrations.Migration):" in content
+
+        assert old_file_01.exists() is False
+        assert old_file_02.exists() is False
+
+    def test_remove_replaced_dry_run(self):
+        """Test dry-run replaces with deleting replacede migrations."""
+        app1_mig_dir = self.app_mig_dirs["app1"]
+        (app1_mig_dir / "__init__.py").touch()
+
+        mig_file = create_remaked_migration(app1_mig_dir, "0001", has_replaces=True)
+        old_file_01 = create_old_migration(app1_mig_dir, "0001_old")
+        old_file_02 = create_old_migration(app1_mig_dir, "0002_old")
+
+        out, err, returncode = run_command(
+            "delete_remaked_migrations", remove_replaced=True, dry_run=True
+        )
+
+        assert returncode == 0
+        assert (
+            "Dry run complete. Would have processed 1 "
+            "migration(s) and deleted 2 migration(s)" in out
+        )
+        assert err == ""
+
+        # Verify replaces was removed
+        content = mig_file.read_text()
+        assert "replaces" in content
+
+        assert old_file_01.exists() is True
+        assert old_file_02.exists() is True
+
+    def test_remove_replaced_missing(self):
+        """Test removing replaces with deleting replacede migrations."""
+        app1_mig_dir = self.app_mig_dirs["app1"]
+        (app1_mig_dir / "__init__.py").touch()
+
+        mig_file = create_remaked_migration(app1_mig_dir, "0001", has_replaces=True)
+        old_file_01 = create_old_migration(app1_mig_dir, "0001_old")
+
+        out, err, returncode = run_command(
+            "delete_remaked_migrations", remove_replaced=True
+        )
+
+        assert returncode == 0
+        assert "Successfully processed 1 migration(s) and deleted 1 migration(s)" in out
+        assert err == ""
+
+        # Verify replaces was removed
+        content = mig_file.read_text()
+        assert "replaces" not in content
+        assert "initial = True" in content  # Should still be present
+        assert "operations = [\n    ]" in content  # Other content intact
+        assert "class Migration(migrations.Migration):" in content
+
+        assert old_file_01.exists() is False

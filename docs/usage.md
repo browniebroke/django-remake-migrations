@@ -50,7 +50,7 @@ Want to know more about how it works? Read the {ref}`technical details page <tec
 
 ## Cleaning up remaked migrations
 
-After you've deployed the remaked migrations to all your environments (development, staging, production), the `replaces` attribute in the migration files is no longer necessary. You can clean it up using the `delete_remaked_migrations` command.
+After you've deployed the remaked migrations to all your environments (development, staging, production), the `replaces` attribute in the migration files is no longer necessary, along the old migration files (if you kept them). You can clean it up using the `delete_remaked_migrations` command.
 
 ```{caution}
 Only run this command after you're certain that all your environments have applied the remaked migrations!
@@ -70,6 +70,8 @@ You may choose to clean up only a specific app:
 python manage.py delete_remaked_migrations --app-label myapp
 ```
 
+If you remade the migrations with the `--keep-old-migrations` option, you can also remove the old migration files by adding `--remove-replaced`, which will both delete the old files and remove the `replaces` attribute from the remade migrations.
+
 ### What does it do?
 
 The command:
@@ -77,5 +79,6 @@ The command:
 1. Finds all migration files with `_remaked_` in their name (from first-party apps only)
 2. Removes the `replaces` attribute from each file
 3. Keeps everything else intact (including `initial = True`)
+4. Removes old migration files if `--remove-replaced` is set
 
 This simplifies the migration files, and unmark them as squashed.
