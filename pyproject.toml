@@ -109,12 +109,12 @@ lint.isort.known-first-party = [ "django_remake_migrations", "tests" ]
 max_supported_python = "3.14"
 
 [tool.pytest]
-ini_options.addopts = """\
+addopts = """\
     -v
     -Wdefault
     --ds=tests.settings
     """
-ini_options.pythonpath = [ "src" ]
+pythonpath = [ "src" ]
 
 [tool.coverage]
 run.branch = true
