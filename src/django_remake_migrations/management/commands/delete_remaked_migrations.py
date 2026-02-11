@@ -1,15 +1,20 @@
 from __future__ import annotations
 
-import re
+import types
 from argparse import ArgumentParser
 from collections import defaultdict
 from importlib import import_module
 from pathlib import Path
+from types import ModuleType
 from typing import Any
 
 from django.apps import AppConfig, apps
 from django.core.management import BaseCommand
+from django.db.migrations import Migration
+from django.db.migrations.exceptions import BadMigrationError
 from django.db.migrations.loader import MigrationLoader
+
+from django_remake_migrations.management.migration_writer import CustomMigrationWriter
 
 
 class Command(BaseCommand):
@@ -79,8 +84,8 @@ class Command(BaseCommand):
         success_count = 0
 
         for app, migrations in sorted(remaked_migrations.items()):
-            for _, migration_name, file_path in migrations:
-                if self.remove_replaces_from_file(file_path, dry_run):
+            for _, migration_name, file_path, migration_module in migrations:
+                if self.remove_replaces_from_file(file_path, migration_module, dry_run):
                     if dry_run:
                         self.stdout.write(
                             f"Would remove replaces from: {app}.{migration_name}"
@@ -106,7 +111,7 @@ class Command(BaseCommand):
 
     def find_remaked_migrations(
         self, app_label: str | None = None
-    ) -> dict[str, list[tuple[str, str, Path]]]:
+    ) -> dict[str, list[tuple[str, str, Path, types.ModuleType]]]:
         """
         Find all remaked migration files.
 
@@ -144,12 +149,14 @@ class Command(BaseCommand):
             )
             migration_file = Path(migration_module.__file__)  # type: ignore[arg-type]
             remaked_migrations[app_label_iter].append(
-                (app_label_iter, migration_name, migration_file)
+                (app_label_iter, migration_name, migration_file, migration_module)
             )
 
         return dict(remaked_migrations)
 
-    def remove_replaces_from_file(self, file_path: Path, dry_run: bool = False) -> bool:
+    def remove_replaces_from_file(
+        self, file_path: Path, migration_module: ModuleType, dry_run: bool = False
+    ) -> bool:
         """
         Remove the replaces attribute from a migration file.
 
@@ -157,39 +164,24 @@ class Command(BaseCommand):
             True if replaces was found and removed, False otherwise
 
         """
-        content = file_path.read_text(encoding="utf-8")
+        if not hasattr(migration_module, "Migration"):
+            raise BadMigrationError(
+                f"Migration {migration_module} has no Migration class"
+            )
+        migration: Migration = migration_module.Migration
 
-        new_lines = []
-        modified = False
-        in_replaces = False
-
-        for line in content.split("\n"):
-            # Check if this line starts a replaces assignment
-            if re.match(r"^\s*replaces\s*=\s*\[", line):
-                modified = True
-                # Check if it's complete on one line
-                if line.rstrip().endswith("]"):
-                    continue  # Skip this line completely
-                else:
-                    in_replaces = True
-                    continue
-
-            # If we're in a multi-line replaces, skip until we find the closing bracket
-            if in_replaces:
-                if "]" in line:
-                    in_replaces = False
-                continue
-
-            new_lines.append(line)
-
-        if not modified:
+        if not migration.replaces:
             return False
 
         if dry_run:
             return True
 
-        new_content = "\n".join(new_lines)
-        file_path.write_text(new_content, encoding="utf-8")
+        migration.replaces = None
+
+        writer = CustomMigrationWriter(migration)
+        with open(file_path, "w", encoding="utf-8") as fh:
+            fh.write(writer.as_string())
+
         return True
 
     @staticmethod
