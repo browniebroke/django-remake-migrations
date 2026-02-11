@@ -96,7 +96,7 @@ class TestDeleteRemakedMigrations(TestCase):
         content = mig_file.read_text()
         assert "replaces" not in content
         assert "initial = True" in content  # Should still be present
-        assert "operations = []" in content  # Other content intact
+        assert "operations = [\n    ]" in content  # Other content intact
         assert "class Migration(migrations.Migration):" in content
 
     def test_multiple_apps(self):
@@ -233,7 +233,7 @@ class TestDeleteRemakedMigrations(TestCase):
         assert "0001_old" not in content
         assert "0002_old" not in content
         assert "initial = True" in content
-        assert "operations = []" in content
+        assert "operations = [\n    ]" in content
 
     def test_multiple_migrations_same_app(self):
         """Test handling multiple remaked migrations in the same app."""
