@@ -1,15 +1,20 @@
 from __future__ import annotations
 
-import re
+import types
 from argparse import ArgumentParser
 from collections import defaultdict
 from importlib import import_module
 from pathlib import Path
+from types import ModuleType
 from typing import Any
 
 from django.apps import AppConfig, apps
 from django.core.management import BaseCommand
+from django.db.migrations import Migration
+from django.db.migrations.exceptions import BadMigrationError
 from django.db.migrations.loader import MigrationLoader
+
+from django_remake_migrations.management.migration_writer import CustomMigrationWriter
 
 
 class Command(BaseCommand):
@@ -26,6 +31,7 @@ class Command(BaseCommand):
     - Remove only the `replaces` attribute from each file
     - Keep all other attributes (like `initial = True`) intact
     - Only process first-party apps (not site-packages/dist-packages)
+    - Optionally delete the replaced migrations (--remove-replaced)
 
     You need to ensure that the remaked migrations are fully rolled out everywhere
     before deploying the result of this command.
@@ -33,7 +39,8 @@ class Command(BaseCommand):
 
     help = (
         "Remove the 'replaces' attribute from remaked migrations after they've been "
-        "fully deployed to all environments."
+        "fully deployed to all environments. Optionally also deletes "
+        "the replaced migrations."
     )
 
     def add_arguments(self, parser: ArgumentParser) -> None:
@@ -49,12 +56,19 @@ class Command(BaseCommand):
             dest="app_label",
             help="Only process migrations for the specified app.",
         )
+        parser.add_argument(
+            "--remove-replaced",
+            dest="remove_replaced",
+            action="store_true",
+            help="Remove the files containing the replaced migrations",
+        )
 
     def handle(
         self,
         *args: str,
         dry_run: bool = False,
         app_label: str | None = None,
+        remove_replaced: bool = False,
         **options: Any,
     ) -> None:
         """Command entry point."""
@@ -77,16 +91,38 @@ class Command(BaseCommand):
 
         # Process each migration
         success_count = 0
+        deleted_migrations: set[tuple[str, str]] = set()
 
         for app, migrations in sorted(remaked_migrations.items()):
-            for _, migration_name, file_path in migrations:
-                if self.remove_replaces_from_file(file_path, dry_run):
+            for _, migration_name, file_path, migration_module in migrations:
+                remove_result, replaces = self.remove_replaces_from_file(
+                    file_path,
+                    migration_module,
+                    dry_run=dry_run,
+                    remove_replaced=remove_replaced,
+                )
+
+                if remove_result:
                     if dry_run:
                         self.stdout.write(
                             f"Would remove replaces from: {app}.{migration_name}"
                         )
+                        if remove_replaced:
+                            deleted_migrations.update(replaces)
+                            for to_remove in replaces:
+                                self.stdout.write(
+                                    f"  - would delete migration "
+                                    f"{to_remove[1]!r} from app {to_remove[0]!r}"
+                                )
                     else:
                         self.log_info(f"Removed replaces from: {app}.{migration_name}")
+                        if remove_replaced:
+                            deleted_migrations.update(replaces)
+                            for to_remove in replaces:
+                                self.stdout.write(
+                                    f"  - deleted migration "
+                                    f"{to_remove[1]!r} from app {to_remove[0]!r}"
+                                )
                     success_count += 1
                 else:
                     self.stdout.write(
@@ -97,7 +133,17 @@ class Command(BaseCommand):
 
         # Final summary
         self.stdout.write("")
-        if dry_run:
+        if remove_replaced and dry_run:
+            self.log_info(
+                f"Dry run complete. Would have processed {success_count} migration(s) "
+                f"and deleted {len(deleted_migrations)} migration(s)."
+            )
+        elif remove_replaced:
+            self.log_info(
+                f"Successfully processed {success_count} migration(s) "
+                f"and deleted {len(deleted_migrations)} migration(s)."
+            )
+        elif dry_run:
             self.log_info(
                 f"Dry run complete. Would have processed {success_count} migration(s)."
             )
@@ -106,7 +152,7 @@ class Command(BaseCommand):
 
     def find_remaked_migrations(
         self, app_label: str | None = None
-    ) -> dict[str, list[tuple[str, str, Path]]]:
+    ) -> dict[str, list[tuple[str, str, Path, types.ModuleType]]]:
         """
         Find all remaked migration files.
 
@@ -144,12 +190,18 @@ class Command(BaseCommand):
             )
             migration_file = Path(migration_module.__file__)  # type: ignore[arg-type]
             remaked_migrations[app_label_iter].append(
-                (app_label_iter, migration_name, migration_file)
+                (app_label_iter, migration_name, migration_file, migration_module)
             )
 
         return dict(remaked_migrations)
 
-    def remove_replaces_from_file(self, file_path: Path, dry_run: bool = False) -> bool:
+    def remove_replaces_from_file(
+        self,
+        file_path: Path,
+        migration_module: ModuleType,
+        dry_run: bool = False,
+        remove_replaced: bool = False,
+    ) -> tuple[bool, list[tuple[str, str]]]:
         """
         Remove the replaces attribute from a migration file.
 
@@ -157,40 +209,45 @@ class Command(BaseCommand):
             True if replaces was found and removed, False otherwise
 
         """
-        content = file_path.read_text(encoding="utf-8")
+        if not hasattr(migration_module, "Migration"):
+            raise BadMigrationError(
+                f"Migration {migration_module} has no Migration class"
+            )
+        migration: Migration = migration_module.Migration
 
-        new_lines = []
-        modified = False
-        in_replaces = False
-
-        for line in content.split("\n"):
-            # Check if this line starts a replaces assignment
-            if re.match(r"^\s*replaces\s*=\s*\[", line):
-                modified = True
-                # Check if it's complete on one line
-                if line.rstrip().endswith("]"):
-                    continue  # Skip this line completely
-                else:
-                    in_replaces = True
-                    continue
-
-            # If we're in a multi-line replaces, skip until we find the closing bracket
-            if in_replaces:
-                if "]" in line:
-                    in_replaces = False
-                continue
-
-            new_lines.append(line)
-
-        if not modified:
-            return False
+        if not migration.replaces:
+            return False, migration.replaces or []
 
         if dry_run:
-            return True
+            return True, migration.replaces or []
 
-        new_content = "\n".join(new_lines)
-        file_path.write_text(new_content, encoding="utf-8")
-        return True
+        replaces = list(migration.replaces or [])
+
+        migration.replaces = None
+
+        writer = CustomMigrationWriter(migration)
+        with open(file_path, "w", encoding="utf-8") as fh:
+            fh.write(writer.as_string())
+
+        removed = replaces
+        if remove_replaced:
+            removed = []
+            for app_label, migration_name in replaces:
+                app_migrations_module_name, _ = MigrationLoader.migrations_module(
+                    app_label
+                )
+                try:
+                    migration_module = import_module(
+                        f"{app_migrations_module_name}.{migration_name}"
+                    )
+                except ModuleNotFoundError:  # already is deleted
+                    continue
+                migration_file = Path(migration_module.__file__)  # type: ignore[arg-type]
+                if migration_file.exists():
+                    migration_file.unlink()
+                    removed.append((app_label, migration_name))
+
+        return True, removed
 
     @staticmethod
     def _is_first_party(app_config: AppConfig) -> bool:
