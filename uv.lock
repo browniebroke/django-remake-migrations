@@ -362,9 +362,9 @@ name = "django"
 version = "5.2.11"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
+    "python_full_version >= '3.12'",
     "python_full_version == '3.11.*'",
     "python_full_version < '3.11'",
-    "python_full_version >= '3.12'",
 ]
 dependencies = [
     { name = "asgiref", marker = "(python_full_version < '3.12' and extra != 'group-24-django-remake-migrations-django42' and extra != 'group-24-django-remake-migrations-django50' and extra != 'group-24-django-remake-migrations-django51') or extra == 'group-24-django-remake-migrations-django52' or (extra == 'group-24-django-remake-migrations-django42' and extra == 'group-24-django-remake-migrations-django50') or (extra == 'group-24-django-remake-migrations-django42' and extra == 'group-24-django-remake-migrations-django51') or (extra == 'group-24-django-remake-migrations-django42' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django50' and extra == 'group-24-django-remake-migrations-django51') or (extra == 'group-24-django-remake-migrations-django50' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django51' and extra == 'group-24-django-remake-migrations-django60')" },
@@ -395,7 +395,7 @@ wheels = [
 
 [[package]]
 name = "django-remake-migrations"
-version = "2.10.0"
+version = "2.10.1"
 source = { editable = "." }
 dependencies = [
     { name = "django", version = "4.2.28", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-24-django-remake-migrations-django42' or (extra == 'group-24-django-remake-migrations-django50' and extra == 'group-24-django-remake-migrations-django51') or (extra == 'group-24-django-remake-migrations-django50' and extra == 'group-24-django-remake-migrations-django52') or (extra == 'group-24-django-remake-migrations-django50' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django51' and extra == 'group-24-django-remake-migrations-django52') or (extra == 'group-24-django-remake-migrations-django51' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60')" },

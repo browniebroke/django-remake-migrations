@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.10.1 (2026-02-12)
+
+### Bug fixes
+
+- Update pytest-django config ([`da2ca32`](https://github.com/browniebroke/django-remake-migrations/commit/da2ca320dd8c2914b28635374bc134b83c46f6bd))
+- Typo addopt -> addopts ([`da2ca32`](https://github.com/browniebroke/django-remake-migrations/commit/da2ca320dd8c2914b28635374bc134b83c46f6bd))
+
 ## v2.10.0 (2025-12-23)
 
 ### Features
