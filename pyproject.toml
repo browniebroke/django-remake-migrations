@@ -110,7 +110,7 @@ max_supported_python = "3.14"
 
 [tool.pytest]
 minversion = "9.0"
-addopt = [ "-v", "-Wdefault" ]  # codespell:ignore addopt
+addopt = [ "-v", "-Wonce" ]  # codespell:ignore addopt
 pythonpath = [ "src" ]
 DJANGO_SETTINGS_MODULE = "tests.settings"
 
