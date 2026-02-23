@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.11.0 (2026-02-23)
+
+### Features
+
+- Add option to `delete_remaked_migrations` to delete old migration files ([`9ec2984`](https://github.com/browniebroke/django-remake-migrations/commit/9ec29842dc3acf95807ddb63139ecae8583b5ebb))
+- Add option to delete old migration files ([`9ec2984`](https://github.com/browniebroke/django-remake-migrations/commit/9ec29842dc3acf95807ddb63139ecae8583b5ebb))
+
 ## v2.10.1 (2026-02-12)
 
 ### Bug fixes
