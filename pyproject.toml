@@ -45,6 +45,7 @@ dev = [
   "psycopg[binary]==3.3.3",
   "pytest>=9,<10",
   "pytest-django>=4.5,<5",
+  "ty==0.0.31",
 ]
 docs = [
   "furo>=2023.5.20; python_version>='3.11'",
@@ -108,21 +109,8 @@ lint.isort.known-first-party = [ "django_remake_migrations", "tests" ]
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
-[tool.mypy]
-check_untyped_defs = true
-disallow_any_generics = true
-disallow_incomplete_defs = true
-disallow_untyped_defs = true
-mypy_path = "src/"
-no_implicit_optional = true
-show_error_codes = true
-warn_unreachable = true
-warn_unused_ignores = true
-exclude = [
-  "docs/.*",
-  "setup.py",
-]
-overrides = [ { module = "tests.*", allow_untyped_defs = true }, { module = "docs.*", ignore_errors = true } ]
+[tool.ty]
+terminal.error-on-warning = true
 
 [tool.pytest]
 minversion = "9.0"
