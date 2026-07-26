@@ -15,9 +15,6 @@ requires-python = ">=3.10"
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   "Framework :: Django",
-  "Framework :: Django :: 4.2",
-  "Framework :: Django :: 5.0",
-  "Framework :: Django :: 5.1",
   "Framework :: Django :: 5.2",
   "Framework :: Django :: 6.0",
   "Intended Audience :: Developers",
@@ -32,7 +29,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
 ]
 dependencies = [
-  "django>=4.2",
+  "django>=5.2",
 ]
 urls."Bug Tracker" = "https://github.com/browniebroke/django-remake-migrations/issues"
 urls.Changelog = "https://github.com/browniebroke/django-remake-migrations/blob/main/CHANGELOG.md"
@@ -52,9 +49,6 @@ docs = [
   "sphinx>=4; python_version>='3.11'",
   "sphinx-autobuild>=2025,<2026; python_version>='3.11'",
 ]
-django42 = [ "django>=4.2a1,<5" ]
-django50 = [ "django>=5.0a1,<5.1" ]
-django51 = [ "django>=5.1a1,<5.2" ]
 django52 = [ "django>=5.2a1,<6" ]
 django60 = [ "django>=6.0a1,<6.1; python_version>='3.12'" ]
 
@@ -63,9 +57,6 @@ conflicts = [
   [
     { group = "django60" },
     { group = "django52" },
-    { group = "django51" },
-    { group = "django50" },
-    { group = "django42" },
   ],
 ]
 
