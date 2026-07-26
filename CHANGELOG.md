@@ -1,5 +1,12 @@
 # Changelog
 
+## v3.0.0 (2026-07-26)
+
+### Features
+
+- Add django 6.1 support ([`630ef33`](https://github.com/browniebroke/django-remake-migrations/commit/630ef330177ffbab16990d9483aad2ea98fa1aad))
+- Drop django < 5.2 support ([`ae6a171`](https://github.com/browniebroke/django-remake-migrations/commit/ae6a1712f61169d31e97717bf645fa5831c6b946))
+
 ## v2.11.0 (2026-02-23)
 
 ### Features

@@ -300,9 +300,9 @@ name = "django"
 version = "5.2.16"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
+    "python_full_version >= '3.12'",
     "python_full_version == '3.11.*'",
     "python_full_version < '3.11'",
-    "python_full_version >= '3.12'",
 ]
 dependencies = [
     { name = "asgiref", marker = "python_full_version < '3.12' or extra == 'group-24-django-remake-migrations-django52' or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
@@ -350,7 +350,7 @@ wheels = [
 
 [[package]]
 name = "django-remake-migrations"
-version = "2.11.0"
+version = "3.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "django", version = "5.2.16", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or extra == 'group-24-django-remake-migrations-django52' or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
