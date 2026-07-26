@@ -17,6 +17,7 @@ classifiers = [
   "Framework :: Django",
   "Framework :: Django :: 5.2",
   "Framework :: Django :: 6.0",
+  "Framework :: Django :: 6.1",
   "Intended Audience :: Developers",
   "Natural Language :: English",
   "Operating System :: OS Independent",
@@ -51,10 +52,12 @@ docs = [
 ]
 django52 = [ "django>=5.2a1,<6" ]
 django60 = [ "django>=6.0a1,<6.1; python_version>='3.12'" ]
+django61 = [ "django>=6.1a1,<6.2; python_version>='3.12'" ]
 
 [tool.uv]
 conflicts = [
   [
+    { group = "django61" },
     { group = "django60" },
     { group = "django52" },
   ],
