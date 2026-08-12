@@ -41,6 +41,7 @@ urls.repository = "https://github.com/browniebroke/django-remake-migrations"
 [dependency-groups]
 dev = [
   "coverage",
+  # psycopg doesn't publish wheel for Python 3.15 yet
   "psycopg[binary]==3.3.4; python_version<'3.15'",
   "psycopg[c]==3.3.4; python_version>='3.15'",
   "pytest>=9,<10",
