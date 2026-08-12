@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.1.0 (2026-08-12)
+
+### Features
+
+- Add support for python 3.15 ([`538f59b`](https://github.com/browniebroke/django-remake-migrations/commit/538f59bbf5b36b62a5e4aaf4e8df0c9f4b0c2f76))
+
 ## v3.0.0 (2026-07-26)
 
 ### Features
