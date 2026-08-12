@@ -2,7 +2,8 @@ version = 1
 revision = 3
 requires-python = ">=3.10"
 resolution-markers = [
-    "python_full_version >= '3.12'",
+    "python_full_version >= '3.15'",
+    "python_full_version >= '3.12' and python_full_version < '3.15'",
     "python_full_version == '3.11.*'",
     "python_full_version < '3.11'",
 ]
@@ -330,9 +331,10 @@ name = "django"
 version = "5.2.17"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
+    "python_full_version >= '3.15'",
+    "python_full_version >= '3.12' and python_full_version < '3.15'",
     "python_full_version == '3.11.*'",
     "python_full_version < '3.11'",
-    "python_full_version >= '3.12'",
 ]
 dependencies = [
     { name = "asgiref", marker = "python_full_version < '3.12' or extra == 'group-24-django-remake-migrations-django52' or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
@@ -349,7 +351,8 @@ name = "django"
 version = "6.0.8"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.12'",
+    "python_full_version >= '3.15'",
+    "python_full_version >= '3.12' and python_full_version < '3.15'",
 ]
 dependencies = [
     { name = "asgiref", marker = "(python_full_version >= '3.12' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61')" },
@@ -366,7 +369,8 @@ name = "django"
 version = "6.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.12'",
+    "python_full_version >= '3.15'",
+    "python_full_version >= '3.12' and python_full_version < '3.15'",
 ]
 dependencies = [
     { name = "asgiref", marker = "(python_full_version >= '3.12' and extra != 'group-24-django-remake-migrations-django52' and extra != 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
@@ -391,7 +395,9 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "coverage" },
-    { name = "psycopg", extra = ["binary"] },
+    { name = "psycopg" },
+    { name = "psycopg", extra = ["binary"], marker = "python_full_version < '3.15' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
+    { name = "psycopg", extra = ["c"], marker = "python_full_version >= '3.15' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "pytest" },
     { name = "pytest-django" },
 ]
@@ -418,7 +424,8 @@ requires-dist = [{ name = "django", specifier = ">=5.2" }]
 [package.metadata.requires-dev]
 dev = [
     { name = "coverage" },
-    { name = "psycopg", extras = ["binary"], specifier = "==3.3.4" },
+    { name = "psycopg", extras = ["binary"], marker = "python_full_version < '3.15'", specifier = "==3.3.4" },
+    { name = "psycopg", extras = ["c"], marker = "python_full_version >= '3.15'", specifier = "==3.3.4" },
     { name = "pytest", specifier = ">=9,<10" },
     { name = "pytest-django", specifier = ">=4.5,<5" },
 ]
@@ -687,7 +694,10 @@ wheels = [
 
 [package.optional-dependencies]
 binary = [
-    { name = "psycopg-binary", marker = "implementation_name != 'pypy' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
+    { name = "psycopg-binary", marker = "(python_full_version < '3.15' and implementation_name != 'pypy') or (python_full_version >= '3.15' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (python_full_version >= '3.15' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (python_full_version >= '3.15' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
+]
+c = [
+    { name = "psycopg-c", marker = "(python_full_version >= '3.15' and implementation_name != 'pypy') or (python_full_version < '3.15' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (python_full_version < '3.15' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (python_full_version < '3.15' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
 ]
 
 [[package]]
@@ -751,6 +761,12 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/c4/b1/f6670f00fa7ea601584623f6c11602ab92117d83eaff885e0210f6de7418/psycopg_binary-3.3.4-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:47c656a8a7ba6eb0cff1801a4caaa9c8bdc12d03080e273aff1c8ac39971a77e", size = 4255811, upload-time = "2026-05-01T23:31:44.986Z" },
     { url = "https://files.pythonhosted.org/packages/eb/e6/5fff07a70d1f945ed90ae131c3bd76cab32beff7c58c6db15ad5820b6d1f/psycopg_binary-3.3.4-cp314-cp314-win_amd64.whl", hash = "sha256:c37e024c07308cd06cf3ec51bfd0e7f6157585a4d84d1bce4a7f5f7913719bf8", size = 3666849, upload-time = "2026-05-01T23:31:51.165Z" },
 ]
+
+[[package]]
+name = "psycopg-c"
+version = "3.3.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/21/7c/c08364f2eab2913e4068b3b955d963e7a3491986a85429990969525def30/psycopg_c-3.3.4.tar.gz", hash = "sha256:ed8106128b2d04359c185fc9641b4409abfce4d0b6fb1d1ff6800646e27f1a22", size = 647111, upload-time = "2026-05-01T23:31:58.032Z" }
 
 [[package]]
 name = "pygments"
@@ -933,7 +949,8 @@ name = "sphinx"
 version = "9.1.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.12'",
+    "python_full_version >= '3.15'",
+    "python_full_version >= '3.12' and python_full_version < '3.15'",
 ]
 dependencies = [
     { name = "alabaster", marker = "python_full_version >= '3.12' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },

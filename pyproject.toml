@@ -27,6 +27,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
   "Topic :: Software Development :: Libraries",
 ]
 dependencies = [
@@ -40,7 +41,9 @@ urls.repository = "https://github.com/browniebroke/django-remake-migrations"
 [dependency-groups]
 dev = [
   "coverage",
-  "psycopg[binary]==3.3.4",
+  # psycopg doesn't publish wheel for Python 3.15 yet
+  "psycopg[binary]==3.3.4; python_version<'3.15'",
+  "psycopg[c]==3.3.4; python_version>='3.15'",
   "pytest>=9,<10",
   "pytest-django>=4.5,<5",
 ]
@@ -100,7 +103,7 @@ lint.per-file-ignores."tests/**/*" = [
 lint.isort.known-first-party = [ "django_remake_migrations", "tests" ]
 
 [tool.pyproject-fmt]
-max_supported_python = "3.14"
+max_supported_python = "3.15"
 
 [tool.mypy]
 mypy_path = "src/"
