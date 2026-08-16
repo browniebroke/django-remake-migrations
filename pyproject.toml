@@ -40,9 +40,9 @@ urls.repository = "https://github.com/browniebroke/django-remake-migrations"
 
 [dependency-groups]
 dev = [
+  "coverage",
   "django-stubs>=6.0.9",
   "mypy>=2.3",
-  "coverage",
   # psycopg doesn't publish wheel for Python 3.15 yet
   "psycopg[binary]==3.3.4; python_version<'3.15'",
   "psycopg[c]==3.3.4; python_version>='3.15'",
@@ -108,7 +108,6 @@ lint.isort.known-first-party = [ "django_remake_migrations", "tests" ]
 max_supported_python = "3.15"
 
 [tool.mypy]
-plugins = [ "mypy_django_plugin.main" ]
 mypy_path = "src/"
 exclude = [
   "docs/.*",
@@ -120,6 +119,7 @@ disallow_incomplete_defs = true
 check_untyped_defs = true
 warn_unused_ignores = true
 warn_unreachable = true
+plugins = [ "mypy_django_plugin.main" ]
 overrides = [ { module = "tests.*", allow_untyped_defs = true }, { module = "docs.*", ignore_errors = true } ]
 no_implicit_optional = true
 show_error_codes = true
