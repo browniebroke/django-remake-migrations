@@ -3,6 +3,7 @@ from __future__ import annotations
 import types
 from argparse import ArgumentParser
 from collections import defaultdict
+from collections.abc import Sequence
 from importlib import import_module
 from pathlib import Path
 from types import ModuleType
@@ -191,7 +192,7 @@ class Command(BaseCommand):
         migration_module: ModuleType,
         dry_run: bool = False,
         remove_replaced: bool = False,
-    ) -> tuple[bool, list[tuple[str, str]]]:
+    ) -> tuple[bool, Sequence[tuple[str, str]]]:
         """
         Remove the replaces attribute from a migration file.
 
@@ -213,7 +214,7 @@ class Command(BaseCommand):
 
         replaces = list(migration.replaces)
 
-        migration.replaces = None
+        migration.replaces = []  # type: ignore[misc]
 
         writer = CustomMigrationWriter(migration)
         with file_path.open("w", encoding="utf-8") as fh:
