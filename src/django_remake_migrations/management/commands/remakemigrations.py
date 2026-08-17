@@ -209,13 +209,13 @@ class Command(BaseCommand):
                         app_label, []
                     ):
                         replaces_list.update(sorted_old_migrations[other_app])
-                    migration_obj.replaces = sorted(replaces_list)
+                    migration_obj.replaces = sorted(replaces_list)  # type: ignore[misc]
                     if index == 0:
                         self.add_needed_database_extensions(migration_obj)
                 else:
                     if index == 0:
                         # The first migration will replace the N first ones
-                        migration_obj.replaces = old_migrations_list[
+                        migration_obj.replaces = old_migrations_list[  # type: ignore[misc]
                             :first_replaces_count
                         ]
                         self.add_needed_database_extensions(migration_obj)
@@ -224,18 +224,18 @@ class Command(BaseCommand):
                         replaced_migration = old_migrations_list[
                             first_replaces_count + index - 1
                         ]
-                        migration_obj.replaces = [replaced_migration]
+                        migration_obj.replaces = [replaced_migration]  # type: ignore[misc]
 
                 if (
                     app_settings.REMAKE_MIGRATIONS_RUN_BEFORE
                     and index == 0
                     and app_label in app_settings.REMAKE_MIGRATIONS_RUN_BEFORE
                 ):
-                    migration_obj.run_before = (
+                    migration_obj.run_before = (  # type: ignore[misc]
                         app_settings.REMAKE_MIGRATIONS_RUN_BEFORE[app_label]
                     )
 
-                migration_obj.initial = True
+                migration_obj.initial = True  # type: ignore[misc]
                 # Rewrite back to the disk
                 self.write_to_disk(migration_obj)
 
@@ -263,7 +263,7 @@ class Command(BaseCommand):
             )
 
         extension_objects = [import_string(ext)() for ext in extensions]
-        migration_obj.operations = [*extension_objects, *migration_obj.operations]
+        migration_obj.operations = [*extension_objects, *migration_obj.operations]  # type: ignore[misc]
 
     @staticmethod
     def write_to_disk(migration_obj: Migration) -> None:
