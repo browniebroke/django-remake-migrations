@@ -60,13 +60,23 @@ Ready to contribute? Here's how to set yourself up for local development.
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass our tests:
+5. The test suite runs against PostgreSQL. If you don't have a server handy, start one with Docker:
+
+   ```shell
+   $ docker run --rm -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres --name drm-postgres postgres:18
+   ```
+
+   The connection defaults to `postgres:postgres@localhost:5432/postgres`, and each part can be
+   overridden with the `POSTGRES_DB`, `POSTGRES_HOST`, `POSTGRES_PASSWORD`, `POSTGRES_PORT` and
+   `POSTGRES_USER` environment variables.
+
+6. When you're done making changes, check that your changes pass our tests:
 
    ```shell
    $ uv run pytest
    ```
 
-6. Linting is done through [prek](https://prek.j178.dev/). Provided you have the tool installed globally, you can run them all as one-off:
+7. Linting is done through [prek](https://prek.j178.dev/). Provided you have the tool installed globally, you can run them all as one-off:
 
    ```shell
    $ prek run -a
@@ -78,7 +88,7 @@ Ready to contribute? Here's how to set yourself up for local development.
    $ prek install -f
    ```
 
-7. Commit your changes and push your branch to GitHub:
+8. Commit your changes and push your branch to GitHub:
 
    ```shell
    $ git add .
@@ -88,7 +98,7 @@ Ready to contribute? Here's how to set yourself up for local development.
 
    Note: the commit message should follow [the conventional commits](https://www.conventionalcommits.org). We run [`commitlint` on CI](https://github.com/marketplace/actions/commit-linter) to validate it, and if you've installed prek hooks at the previous step, the message will be checked at commit time.
 
-8. Submit a pull request through the GitHub website or using the GitHub CLI (if you have it installed):
+9. Submit a pull request through the GitHub website or using the GitHub CLI (if you have it installed):
 
    ```shell
    $ gh pr create --fill
