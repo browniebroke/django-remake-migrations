@@ -44,8 +44,8 @@ dev = [
   "django-stubs>=6.0.9",
   "mypy>=2.3",
   # psycopg doesn't publish wheel for Python 3.15 yet
-  "psycopg[binary]==3.3.4; python_version<'3.15'",
-  "psycopg[c]==3.3.4; python_version>='3.15'",
+  "psycopg[binary]==3.3.5; python_version<'3.15'",
+  "psycopg[c]==3.3.5; python_version>='3.15'",
   "pytest>=9,<10",
   "pytest-django>=4.5,<5",
 ]
