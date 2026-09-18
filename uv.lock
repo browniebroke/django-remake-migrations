@@ -535,9 +535,7 @@ dev = [
     { name = "django-stubs", version = "6.0.9", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "django-stubs", version = "6.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "mypy" },
-    { name = "psycopg" },
-    { name = "psycopg", extra = ["binary"], marker = "python_full_version < '3.15' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
-    { name = "psycopg", extra = ["c"], marker = "python_full_version >= '3.15' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
+    { name = "psycopg", extra = ["binary"] },
     { name = "pytest" },
     { name = "pytest-django" },
 ]
@@ -566,8 +564,7 @@ dev = [
     { name = "coverage" },
     { name = "django-stubs", specifier = ">=6.0.9" },
     { name = "mypy", specifier = ">=2.3" },
-    { name = "psycopg", extras = ["binary"], marker = "python_full_version < '3.15'", specifier = "==3.3.6" },
-    { name = "psycopg", extras = ["c"], marker = "python_full_version >= '3.15'", specifier = "==3.3.6" },
+    { name = "psycopg", extras = ["binary"], specifier = "==3.3.6" },
     { name = "pytest", specifier = ">=9,<10" },
     { name = "pytest-django", specifier = ">=4.5,<5" },
 ]
@@ -1128,10 +1125,7 @@ wheels = [
 
 [package.optional-dependencies]
 binary = [
-    { name = "psycopg-binary", marker = "(python_full_version < '3.15' and implementation_name != 'pypy') or (python_full_version >= '3.15' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (python_full_version >= '3.15' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (python_full_version >= '3.15' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
-]
-c = [
-    { name = "psycopg-c", marker = "(python_full_version >= '3.15' and implementation_name != 'pypy') or (python_full_version < '3.15' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (python_full_version < '3.15' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (python_full_version < '3.15' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (implementation_name == 'pypy' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
+    { name = "psycopg-binary", marker = "implementation_name != 'pypy' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
 ]
 
 [[package]]
@@ -1206,12 +1200,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/5d/d5/cf0cbd1ea5a7d8167fe2c6953efde19101f7b193bd61a23e6d622ad6854c/psycopg_binary-3.3.6-cp315-cp315-musllinux_1_2_x86_64.whl", hash = "sha256:303732e798fe6729f8e12021b9c96107df8e95ecec4dd487c67b98ec2a59435e", size = 4336388, upload-time = "2026-09-18T13:22:45.576Z" },
     { url = "https://files.pythonhosted.org/packages/98/33/e2a5b36edf8aa422f6fa4b894756eb33dc93b36df5f65121280bb8b929c4/psycopg_binary-3.3.6-cp315-cp315-win_amd64.whl", hash = "sha256:2f122603f36050937982abf9668d8bc4769a79f7c93a65013b1c49f1cab7b56b", size = 3756154, upload-time = "2026-09-18T13:22:51.283Z" },
 ]
-
-[[package]]
-name = "psycopg-c"
-version = "3.3.6"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/58/53/bf15aa48cd6f0ad0039b9f48681d2e76e8564d413af47b13fab50dd03555/psycopg_c-3.3.6.tar.gz", hash = "sha256:29c568426ad61c1b702c7d73505c43ca2c9fc5d97a8431d8d9049e731e319ff8", size = 698245, upload-time = "2026-09-18T13:22:57.752Z" }
 
 [[package]]
 name = "pygments"
