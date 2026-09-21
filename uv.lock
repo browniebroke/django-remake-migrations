@@ -468,10 +468,10 @@ name = "django"
 version = "5.2.17"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.15'",
-    "python_full_version >= '3.12' and python_full_version < '3.15'",
     "python_full_version == '3.11.*'",
     "python_full_version < '3.11'",
+    "python_full_version >= '3.15'",
+    "python_full_version >= '3.12' and python_full_version < '3.15'",
 ]
 dependencies = [
     { name = "asgiref", marker = "python_full_version < '3.12' or extra == 'group-24-django-remake-migrations-django52' or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
@@ -533,7 +533,7 @@ dependencies = [
 dev = [
     { name = "coverage" },
     { name = "django-stubs", version = "6.0.9", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
-    { name = "django-stubs", version = "6.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
+    { name = "django-stubs", version = "6.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "mypy" },
     { name = "psycopg", extra = ["binary"] },
     { name = "pytest" },
@@ -599,7 +599,7 @@ wheels = [
 
 [[package]]
 name = "django-stubs"
-version = "6.1.0"
+version = "6.1.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.15'",
@@ -610,13 +610,13 @@ dependencies = [
     { name = "django", version = "5.2.17", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*' or (python_full_version >= '3.12' and extra == 'group-24-django-remake-migrations-django52') or (python_full_version < '3.11' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (python_full_version < '3.11' and extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (python_full_version < '3.11' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61') or (python_full_version >= '3.12' and extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "django", version = "6.0.8", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "django", version = "6.1.1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra != 'group-24-django-remake-migrations-django52' and extra != 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
-    { name = "django-stubs-ext", version = "6.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
+    { name = "django-stubs-ext", version = "6.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "types-pyyaml", marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "typing-extensions", marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/65/34/e9f03764b32f56c02168814385ddc6d0e49a7b3e4381e8e3f6f5f34f39ff/django_stubs-6.1.0.tar.gz", hash = "sha256:b6aecc5c738a103135f76ba160a6f75e3b27dcf0200c64d7226018cdbc2340dd", size = 293018, upload-time = "2026-08-12T10:55:28.817Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2b/d6/fb467f5f769b831680d8cb6705e4bbec335c79b328ff7e347e220e676da8/django_stubs-6.1.1.tar.gz", hash = "sha256:291fd79197416d191ec9f4e443bc6800b64dd5d41e476b91e679495d005f3d61", size = 295523, upload-time = "2026-09-14T08:46:24.686Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a8/cf/064d7c48642309f3397b17ff14f3159c5225eb9321185a10039c0e846848/django_stubs-6.1.0-py3-none-any.whl", hash = "sha256:63b23ccca2616d464ed7e37d1ce44960315cb3cecab75b23c928467ef125e560", size = 557040, upload-time = "2026-08-12T10:55:26.959Z" },
+    { url = "https://files.pythonhosted.org/packages/9d/26/911e381b1cee7fbb7f11f640ec4be4ec1b6ae49dc58ff2cb829cf12dc4b9/django_stubs-6.1.1-py3-none-any.whl", hash = "sha256:a913d0c35242cd820f638486118fd542d687b6a85104bea9cb7e635b52b889e3", size = 559401, upload-time = "2026-09-14T08:46:23.153Z" },
 ]
 
 [[package]]
@@ -637,7 +637,7 @@ wheels = [
 
 [[package]]
 name = "django-stubs-ext"
-version = "6.1.0"
+version = "6.1.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.15'",
@@ -650,9 +650,9 @@ dependencies = [
     { name = "django", version = "6.1.1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra != 'group-24-django-remake-migrations-django52' and extra != 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "typing-extensions", marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e6/40/75dd6650c5fc345b9edaebe42085811096e31a502fdbe17a52ffb9640d03/django_stubs_ext-6.1.0.tar.gz", hash = "sha256:d5635a481f5bdf2e04d533a8b602d3b9a28f073deffc85b83048dd20032e4d20", size = 6848, upload-time = "2026-08-12T10:54:44.47Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4c/70/5f80a3acf99d26dea89e892d4573f0e650904e573708b5fbf3bfc9cec72c/django_stubs_ext-6.1.1.tar.gz", hash = "sha256:c35263135558d4c5d12b69e1f4c98632bf59bc3ab5118f7d4882d12800e3a7dd", size = 7217, upload-time = "2026-09-14T08:45:52.44Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ed/41/10b8d576651af4f1dc6bdfb0d8a203e8b3a55d60ae36ba305d0edcdb594f/django_stubs_ext-6.1.0-py3-none-any.whl", hash = "sha256:57273506823274700a707c8f404dfb52a12c4554daf1468dfb2bff857bb22074", size = 10404, upload-time = "2026-08-12T10:54:42.979Z" },
+    { url = "https://files.pythonhosted.org/packages/99/c3/305a9f7611c0dc96d2a638bc3a67bdcde5a7faa5f4669188db018b8af6fc/django_stubs_ext-6.1.1-py3-none-any.whl", hash = "sha256:64aebb7ce2c327a4a2b75207d67034e879fd7edf027c93487be69da363dc79fa", size = 10853, upload-time = "2026-09-14T08:45:51.289Z" },
 ]
 
 [[package]]
@@ -704,11 +704,11 @@ wheels = [
 
 [[package]]
 name = "idna"
-version = "3.19"
+version = "3.20"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/5f/f7/abb373e5757eaec4b922b92f97ec8d6d7e057cf06778247604fbc4e7c3f3/idna-3.19.tar.gz", hash = "sha256:5e0811a4383b21dc5838069f801c4fb62113b7447663d2530d2bd6e77b49bf15", size = 215237, upload-time = "2026-08-18T05:14:24.27Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f5/08/8eea9d4b8302028f3abb2c0813953f7aec26d33b7a8960ed760e65ff29fa/idna-3.20.tar.gz", hash = "sha256:a7db850025b95ded1eae8a46181a1a6c56c92c96f0e2b005d9ff8dc0210cab44", size = 216463, upload-time = "2026-09-17T14:11:04.752Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/57/b0/0e52c878c53f245edd3a11020f20979b3f490f245af532c7cae3027754b5/idna-3.19-py3-none-any.whl", hash = "sha256:815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4", size = 68550, upload-time = "2026-08-18T05:14:22.343Z" },
+    { url = "https://files.pythonhosted.org/packages/58/a2/bb081bab032533a855d44de1d56f8e8426114ff1ba5d1f07a438a0a654f8/idna-3.20-py3-none-any.whl", hash = "sha256:ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c", size = 69583, upload-time = "2026-09-17T14:11:03.168Z" },
 ]
 
 [[package]]
@@ -1599,24 +1599,24 @@ wheels = [
 
 [[package]]
 name = "urllib3"
-version = "2.7.0"
+version = "2.8.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/53/0c/06f8b233b8fd13b9e5ee11424ef85419ba0d8ba0b3138bf360be2ff56953/urllib3-2.7.0.tar.gz", hash = "sha256:231e0ec3b63ceb14667c67be60f2f2c40a518cb38b03af60abc813da26505f4c", size = 433602, upload-time = "2026-05-07T16:13:18.596Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e3/05/b17359e1cefb4f909b5e40b1b90a496d987258916dbbf88e842c729f510e/urllib3-2.8.0.tar.gz", hash = "sha256:63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63", size = 458972, upload-time = "2026-09-15T19:29:36.253Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7f/3e/5db95bcf282c52709639744ca2a8b149baccf648e39c8cc87553df9eae0c/urllib3-2.7.0-py3-none-any.whl", hash = "sha256:9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897", size = 131087, upload-time = "2026-05-07T16:13:17.151Z" },
+    { url = "https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl", hash = "sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3", size = 135717, upload-time = "2026-09-15T19:29:34.577Z" },
 ]
 
 [[package]]
 name = "uvicorn"
-version = "0.52.4"
+version = "0.53.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click", marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
     { name = "h11", marker = "python_full_version >= '3.11' or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django60') or (extra == 'group-24-django-remake-migrations-django52' and extra == 'group-24-django-remake-migrations-django61') or (extra == 'group-24-django-remake-migrations-django60' and extra == 'group-24-django-remake-migrations-django61')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f2/0f/3f86e61397dd33bf2ccf28188c40db6a740658aeebbbf6e7dbc101a1f487/uvicorn-0.52.4.tar.gz", hash = "sha256:73acfee47a0b133c5de13d219492d62d8a31e935f4fe6e41a232451a15379f86", size = 100627, upload-time = "2026-08-19T06:27:41.821Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5d/ad/04bbb797c84fc1f26cb171f7394716f4865ffb8d8c5e1eef42565c2dfa6b/uvicorn-0.53.0.tar.gz", hash = "sha256:a9356f0cb89b3b8621529c5d5eebd69bfe154f4c3f68b4cf2de47e45fa855c2e", size = 110881, upload-time = "2026-09-14T07:44:23.815Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f1/79/4a20b54ab0491485ccd8c077db2d39187c7f12b3e15485d38a7be37c81b4/uvicorn-0.52.4-py3-none-any.whl", hash = "sha256:f86e41a149d7d05a9969337e3946a9c171c06a5d42680896daaba624aeac8da1", size = 79871, upload-time = "2026-08-19T06:27:40.36Z" },
+    { url = "https://files.pythonhosted.org/packages/76/18/0eea75741ee812e9f598b687619ce2454f6c3a1c5cd21ea990ec6bd26f45/uvicorn-0.53.0-py3-none-any.whl", hash = "sha256:e8dca71ec86dce5f04e333f0d56cdedf942446e6643b9cea1af0d6d3a02cb03e", size = 87081, upload-time = "2026-09-14T07:44:22.179Z" },
 ]
 
 [[package]]
