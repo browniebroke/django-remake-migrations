@@ -16,7 +16,7 @@ on:
 
 jobs:
   issue-manager:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: tiangolo/issue-manager@dc846170c36eb62fb434b3d943b36399fe240fb5 # 0.8.1
         with:
