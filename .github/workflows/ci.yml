@@ -73,8 +73,8 @@ jobs:
       - run: tox -f py$(echo ${{ matrix.python-version }} | tr -d .)
         shell: bash
       - run: |
-          uv run coverage combine
-          uv run coverage xml
+          uv tool run --from "coverage[toml]" coverage combine
+          uv tool run --from "coverage[toml]" coverage xml
         shell: bash
       - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7
         with:
