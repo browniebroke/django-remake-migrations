@@ -1,5 +1,15 @@
 # Changelog
 
+## v4.0.0 (2026-11-07)
+
+### Features
+
+- Drop support for python 3.10 ([`8515e54`](https://github.com/browniebroke/django-remake-migrations/commit/8515e54656416e6702a0e06e712fb4ea1976f8bd))
+
+### Testing
+
+- Run tests against postgresql ([`5a2b3ed`](https://github.com/browniebroke/django-remake-migrations/commit/5a2b3edd8282a2e07f705500f2bb9825805474b4))
+
 ## v3.1.0 (2026-08-12)
 
 ### Features
