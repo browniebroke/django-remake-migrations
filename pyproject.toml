@@ -47,10 +47,10 @@ dev = [
   "pytest-django>=4.5,<5",
 ]
 docs = [
-  "furo>=2023.5.20; python_version>='3.11'",
-  "myst-parser>=0.16; python_version>='3.11'",
-  "sphinx>=4; python_version>='3.11'",
-  "sphinx-autobuild>=2025,<2026; python_version>='3.11'",
+  "furo>=2023.5.20; python_version>='3.14'",
+  "myst-parser>=0.16; python_version>='3.14'",
+  "sphinx>=4; python_version>='3.14'",
+  "sphinx-autobuild>=2025,<2026; python_version>='3.14'",
 ]
 django52 = [ "django>=5.2a1,<6" ]
 django60 = [ "django>=6.0a1,<6.1; python_version>='3.12'" ]
